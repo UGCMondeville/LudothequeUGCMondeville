@@ -1,0 +1,761 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Ma ludothèque à UGC Mondeville</title>
+
+<style>
+:root {
+  --blue: #003B7A;
+  --blue-light: #EAF1FA;
+  --cream: #F5F7FB;
+  --ink: #26354A;
+  --white: #FFFFFF;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.6;
+}
+
+/* EN-TÊTE BLEU */
+
+header {
+  background: var(--blue);
+  color: white;
+  padding: 25px 6%;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  color: white;
+  text-decoration: none;
+  font-size: clamp(21px, 4vw, 32px);
+  font-weight: 800;
+  text-align: center;
+}
+
+/* PRÉSENTATION */
+
+.hero {
+  padding: 45px 6%;
+  background: var(--blue-light);
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  margin: 0 0 12px;
+  color: var(--blue);
+}
+
+.hero p {
+  max-width: 700px;
+  margin: auto;
+  font-size: 17px;
+}
+
+/* CATALOGUE */
+
+main {
+  max-width: 1150px;
+  margin: auto;
+  padding: 35px 20px 60px;
+}
+
+.section-title {
+  color: var(--blue);
+  font-size: 28px;
+  margin: 0 0 25px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #E2E7EF;
+  box-shadow: 0 5px 18px rgba(25, 50, 85, 0.07);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(25, 50, 85, 0.13);
+}
+
+.cover {
+  height: 185px;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  overflow: hidden;
+}
+.cover svg, .detail-cover svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+
+.c1 { background: #F2DFBB; }
+.c2 { background: #DCEBD7; }
+.c3 { background: #DCE6F5; }
+.c4 { background: #F5D8DC; }
+.c5 { background: #E8DFF4; }
+.c6 { background: #F6E5A9; }
+
+.card-content {
+  padding: 20px;
+}
+
+.card h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+  color: var(--blue);
+}
+
+.meta {
+  color: #657487;
+  font-size: 13px;
+}
+
+.card p {
+  min-height: 72px;
+}
+
+button,
+.buy {
+  display: inline-block;
+  border: none;
+  border-radius: 9px;
+  padding: 12px 17px;
+  background: var(--blue);
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover,
+.buy:hover {
+  background: #1559A6;
+}
+
+/* PAGE INDIVIDUELLE */
+
+.back {
+  background: transparent;
+  color: var(--blue);
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.back:hover {
+  background: transparent;
+  text-decoration: underline;
+}
+
+.detail {
+  background: white;
+  border-radius: 16px;
+  padding: clamp(20px, 5vw, 42px);
+  border: 1px solid #E2E7EF;
+}
+
+.detail-cover {
+  height: 220px;
+  border-radius: 14px;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  overflow: hidden;
+  margin-bottom: 25px;
+}
+
+.detail h1 {
+  color: var(--blue);
+  font-size: clamp(30px, 5vw, 40px);
+  line-height: 1.2;
+}
+
+.detail h2 {
+  margin-top: 30px;
+  color: var(--blue);
+}
+
+.detail li {
+  margin-bottom: 12px;
+}
+
+.facts {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.fact {
+  background: var(--blue-light);
+  padding: 9px 13px;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+.note {
+  color: #657487;
+  font-size: 13px;
+  margin-top: 20px;
+}
+
+.buy {
+  margin-top: 8px;
+  padding: 15px 22px;
+}
+
+footer {
+  background: var(--blue);
+  color: white;
+  padding: 25px 20px;
+  text-align: center;
+}
+
+footer p {
+  margin-bottom: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 500px) {
+  header {
+    padding: 20px 5%;
+  }
+
+  .hero {
+    padding: 35px 6%;
+  }
+
+  main {
+    padding: 25px 15px 40px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card p {
+    min-height: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <nav>
+    <a class="logo" href="#" onclick="showHome(); return false">
+      🎬 Ma ludothèque à UGC Mondeville
+    </a>
+  </nav>
+</header>
+
+<section class="hero" id="hero">
+  <h1>Le plaisir de jouer ensemble !</h1>
+  <p>
+    Bienvenue dans notre ludothèque à UGC Mondeville !
+    Découvrez les jeux disponibles, apprenez leurs règles
+    et profitez d'un moment convivial en famille ou entre amis.
+  </p>
+</section>
+
+<main>
+
+  <!-- PAGE D'ACCUEIL : LISTE DES JEUX -->
+
+  <section id="home">
+    <h2 class="section-title">🎲 Découvrez nos jeux</h2>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- PAGE INDIVIDUELLE DE CHAQUE JEU -->
+
+  <section id="detail" hidden></section>
+
+</main>
+
+<footer>
+  <strong>🎬 Ma ludothèque à UGC Mondeville</strong>
+  <p>Choisissez un jeu et que la partie commence !</p>
+</footer>
+
+<script>
+const games = [
+
+{
+  id: "dominos",
+  name: "Dominos",
+  cover: "c1",
+  players: "2 à 4 joueurs",
+  age: "Dès 5 ans",
+  duration: "15 à 30 min",
+  short: "Associez les dominos en faisant correspondre les nombres de points.",
+  description: "Les dominos sont un grand classique des jeux de société. Chaque pièce possède deux extrémités avec des nombres de points. Il faut associer les pièces correctement pour se débarrasser de tous ses dominos avant les autres joueurs.",
+  goal: "Être le premier à poser tous ses dominos.",
+  equipment: "Un jeu classique double-six comprend 28 dominos.",
+  rules: [
+    "Mélangez les dominos face cachée sur la table.",
+    "Chaque joueur pioche généralement 7 dominos. Les pièces restantes forment la pioche si nécessaire.",
+    "Le joueur qui possède le double-six peut commencer. Si personne ne l'a, choisissez un autre domino de départ.",
+    "À tour de rôle, posez un domino dont une extrémité correspond au nombre de points d'une extrémité libre de la chaîne.",
+    "Si vous ne pouvez pas jouer, piochez si une pioche est prévue ; sinon, passez votre tour.",
+    "Le premier joueur qui pose tous ses dominos gagne. Si la partie est bloquée, le joueur ayant le moins de points en main gagne."
+  ],
+  shop: "https://www.joueclub.fr/jeux-de-societes/jeu-de-dominos-3393143340384.html"
+},
+
+{
+  id: "mikado",
+  name: "Mikado",
+  cover: "c2",
+  players: "1 à 6 joueurs",
+  age: "Dès 5 ans",
+  duration: "Moins de 15 min",
+  short: "Retirez délicatement des baguettes sans faire bouger les autres.",
+  description: "Le Mikado est un jeu d'adresse et de patience. Les baguettes sont entremêlées et chaque mouvement doit être précis. Il faut récupérer les baguettes sans déplacer les autres.",
+  goal: "Obtenir le plus de points en récupérant les baguettes.",
+  equipment: "Un ensemble de baguettes marquées de différentes couleurs ou valeurs.",
+  rules: [
+    "Tenez toutes les baguettes verticalement au-dessus de la table.",
+    "Laissez-les tomber pour qu'elles s'entremêlent.",
+    "À votre tour, choisissez une baguette et essayez de la retirer sans déplacer les autres.",
+    "Si vous réussissez, gardez la baguette et rejouez selon la règle habituelle.",
+    "Si une autre baguette bouge, votre tour se termine.",
+    "À la fin, comptez les points de vos baguettes. Le score le plus élevé gagne."
+  ],
+  shop: "https://www.joueclub.fr/jeux-de-societe/mikado-3393143400248.html"
+},
+
+{
+  id: "cartes",
+  name: "Jeu de 54 cartes",
+  cover: "c3",
+  players: "Selon le jeu choisi",
+  age: "Selon la variante",
+  duration: "Variable",
+
+  short: "Un paquet polyvalent pour découvrir une multitude de jeux de cartes.",
+
+  description: "Un paquet standard de 54 cartes comprend quatre couleurs : cœur, carreau, pique et trèfle, ainsi que des figures et généralement deux jokers. Il permet de jouer à de nombreuses variantes.",
+
+  goal: "",
+  equipment: "Un paquet de 52 cartes et 2 jokers.",
+
+  rules: [],
+
+  shop: "https://www.joueclub.fr/jeux-de-societe/jeu-de-54-cartes-3700217330231.html",
+
+  customContent: `
+    <h2>🃏 Une multitude de jeux à découvrir !</h2>
+
+    <p>
+      Saviez-vous qu'avec un simple jeu de 52 cartes, vous pouvez
+      jouer à une multitude de jeux différents, en famille ou entre amis ?
+      Bataille, rami, jeux de réflexion ou de stratégie :
+      il y en a pour tous les goûts !
+    </p>
+
+    <p>
+      Découvrez plein d'idées de jeux et trouvez votre prochaine activité
+      autour d'un paquet de cartes.
+    </p>
+
+    <a
+      class="buy"
+      href="https://gusandco.net/2020/03/28/cartes-jeux-idees/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Découvrir les idées de jeux sur Gus & Co ↗
+    </a>
+  `
+},
+
+{
+  id: "uno",
+  name: "UNO",
+  cover: "c4",
+  players: "2 à 6 joueurs",
+  age: "Dès 7 ans",
+  duration: "15 à 30 min",
+  short: "Associez les couleurs et les chiffres pour vous débarrasser de toutes vos cartes.",
+  description: "UNO est un jeu de cartes familial dans lequel il faut observer les cartes jouées, anticiper les coups des adversaires et utiliser les cartes spéciales au bon moment.",
+  goal: "Être le premier à se débarrasser de toutes ses cartes.",
+  equipment: "Un paquet de cartes UNO avec cartes numérotées, cartes Action et Jokers.",
+  rules: [
+    "Distribuez 7 cartes à chaque joueur. Placez le reste en pioche et retournez une carte pour commencer la défausse.",
+    "À votre tour, jouez une carte de la même couleur, du même chiffre ou du même symbole que la carte visible.",
+    "Si vous ne pouvez pas jouer, piochez une carte. Vous pouvez la jouer immédiatement si elle convient, selon la règle utilisée.",
+    "Les cartes spéciales peuvent faire passer un tour, inverser le sens du jeu, faire piocher des cartes ou changer la couleur.",
+    "Lorsqu'il ne vous reste qu'une carte, annoncez UNO ! Une pénalité peut s'appliquer si vous oubliez et que cela est remarqué à temps.",
+    "Le premier joueur qui n'a plus de cartes remporte la manche."
+  ],
+  shop: "https://www.joueclub.fr/jeux-de-societe/uno-classique-jeu-de-cartes-0746775036744.html"
+},
+
+{
+  id: "devinetes",
+  name: "La Pat'Patrouille - Devine Tête",
+  cover: "c5",
+  players: "Selon l'édition",
+  age: "Version enfant",
+  duration: "15 à 30 min",
+  short: "Posez des questions et essayez de deviner ce qui est représenté sur votre carte.",
+  description: "Un jeu de devinettes convivial dans lequel les joueurs essaient de retrouver une image, un personnage ou un objet grâce aux questions et aux indices des autres participants.",
+  goal: "Deviner le plus de cartes possible.",
+  equipment: "Des cartes illustrées et des bandeaux ou supports, selon l'édition.",
+  rules: [
+    "Préparez les cartes et les bandeaux conformément au matériel de votre boîte.",
+    "Chaque joueur place une carte de manière à ce que les autres puissent la voir, mais pas lui-même.",
+    "À tour de rôle, posez des questions auxquelles les autres peuvent répondre par oui ou par non.",
+    "Utilisez les réponses pour éliminer des possibilités et deviner l'image ou le personnage.",
+    "Si vous trouvez la bonne réponse, marquez un point ou conservez la carte selon la règle choisie.",
+    "À la fin de la partie, le joueur qui a obtenu le plus de points gagne."
+  ],
+  shop: "https://www.joueclub.fr/jeux-de-societe/la-pat-patrouille-devine-tete-0681147032491.html",
+  shopNote: "Attention : ce lien mène à Devine Tête L'Affrontement. Vérifiez qu'il correspond à l'édition Kids souhaitée."
+},
+
+{
+  id: "puissance4",
+  name: "Puissance 4",
+  cover: "c6",
+  players: "2 joueurs",
+  age: "Dès 6 ans",
+  duration: "15 à 20 min",
+  short: "Alignez quatre jetons de votre couleur avant votre adversaire.",
+  description: "Puissance 4 est un jeu de stratégie rapide dans lequel les joueurs placent des jetons dans une grille verticale. Chaque coup peut préparer une victoire ou bloquer l'adversaire.",
+  goal: "Aligner quatre jetons de sa couleur horizontalement, verticalement ou en diagonale.",
+  equipment: "Une grille verticale et des jetons de deux couleurs différentes.",
+  rules: [
+    "Installez la grille et choisissez chacun une couleur de jetons.",
+    "À tour de rôle, faites tomber un jeton dans la colonne de votre choix.",
+    "Les jetons se déposent au fond de la colonne ou sur les jetons déjà placés.",
+    "Essayez de former une ligne de quatre jetons tout en empêchant l'adversaire de faire la même chose.",
+    "L'alignement peut être horizontal, vertical ou diagonal.",
+    "Le premier joueur qui aligne quatre jetons gagne. Si la grille est pleine sans alignement, la partie est nulle."
+  ],
+  shop: "https://www.joueclub.fr/jeux-de-societes/puissance-4-5010993697601.html"
+}
+
+];
+
+const grid = document.getElementById("grid");
+const home = document.getElementById("home");
+const detail = document.getElementById("detail");
+const hero = document.getElementById("hero");
+
+
+/* ILLUSTRATIONS PERSONNALISÉES : une scène vectorielle par jeu.
+   Le cartouche JouéClub est intégré en bas à gauche de chaque visuel. */
+function renderIllustration(game) {
+  const logo = `
+    <g transform="translate(12 143)">
+      <rect x="0" y="0" width="104" height="29" rx="6" fill="#FFFFFF" fill-opacity=".96" stroke="#D7DFEA"/>
+      <image
+        href="https://cdn.worldvectorlogo.com/logos/logo-joueclub-2016-blue-.svg"
+        x="7" y="6" width="90" height="17"
+        preserveAspectRatio="xMidYMid meet"
+      />
+      <title>Logo JouéClub</title>
+    </g>`;
+  const art = {
+    dominos: `
+      <rect width="320" height="185" fill="#F2DFBB"/>
+      <circle cx="258" cy="36" r="54" fill="#E8C98D" opacity=".55"/>
+      <g transform="translate(95 24) rotate(-13 34 53)">
+        <rect x="0" y="0" width="68" height="108" rx="9" fill="#FFFDF6" stroke="#8D6B3C" stroke-width="3"/>
+        <path d="M4 54H64" stroke="#8D6B3C" stroke-width="2"/>
+        <g fill="#26354A"><circle cx="20" cy="20" r="5"/><circle cx="48" cy="36" r="5"/><circle cx="20" cy="78" r="5"/><circle cx="48" cy="92" r="5"/><circle cx="34" cy="85" r="5"/></g>
+      </g>
+      <g transform="translate(174 48) rotate(12 25 42)">
+        <rect x="0" y="0" width="52" height="83" rx="7" fill="#FFFDF6" stroke="#8D6B3C" stroke-width="3"/>
+        <path d="M3 41H49" stroke="#8D6B3C" stroke-width="2"/>
+        <g fill="#D34C3E"><circle cx="16" cy="18" r="4"/><circle cx="36" cy="27" r="4"/><circle cx="16" cy="58" r="4"/><circle cx="36" cy="68" r="4"/></g>
+      </g>
+      <text x="160" y="164" font-family="Arial" font-size="13" font-weight="700" fill="#75552B" text-anchor="middle">ASSOCIEZ LES POINTS</text>
+    `,
+    mikado: `
+      <rect width="320" height="185" fill="#DCEBD7"/>
+      <circle cx="254" cy="40" r="60" fill="#B7D5AE" opacity=".65"/>
+      <ellipse cx="170" cy="100" rx="100" ry="42" fill="#FFFFFF" opacity=".4"/>
+      <g stroke-linecap="round" stroke-width="7">
+        <path d="M105 30L220 130" stroke="#2D6C4A"/><path d="M132 27L204 143" stroke="#E4A23A"/>
+        <path d="M185 28L113 137" stroke="#C64E54"/><path d="M222 35L92 111" stroke="#345FA3"/>
+        <path d="M88 45L233 100" stroke="#7D5AA6"/><path d="M150 20L160 147" stroke="#E4A23A"/>
+        <path d="M205 48L125 151" stroke="#2D6C4A"/>
+      </g>
+      <g fill="#FFFFFF" opacity=".75"><circle cx="65" cy="40" r="4"/><circle cx="260" cy="100" r="5"/><circle cx="72" cy="120" r="3"/></g>
+      <text x="210" y="165" font-family="Arial" font-size="13" font-weight="700" fill="#315D3B" text-anchor="middle">CALME & PRÉCISION</text>
+    `,
+    cartes: `
+      <rect width="320" height="185" fill="#DCE6F5"/>
+      <circle cx="255" cy="42" r="60" fill="#B7CBEA" opacity=".65"/>
+      <g transform="translate(85 22) rotate(-14 42 62)">
+        <rect x="0" y="0" width="78" height="112" rx="8" fill="#FFFFFF" stroke="#8BA4CA" stroke-width="2"/>
+        <text x="11" y="25" font-family="Georgia" font-size="22" font-weight="bold" fill="#C93D4B">A</text>
+        <text x="12" y="47" font-family="Georgia" font-size="22" fill="#C93D4B">♥</text>
+        <text x="39" y="77" font-family="Georgia" font-size="45" fill="#C93D4B" text-anchor="middle">♥</text>
+      </g>
+      <g transform="translate(154 38) rotate(12 42 62)">
+        <rect x="0" y="0" width="78" height="112" rx="8" fill="#F9FCFF" stroke="#8BA4CA" stroke-width="2"/>
+        <text x="10" y="25" font-family="Georgia" font-size="22" font-weight="bold" fill="#183D70">K</text>
+        <text x="12" y="47" font-family="Georgia" font-size="22" fill="#183D70">♠</text>
+        <path d="M39 50 C15 67 29 91 39 83 C49 91 63 67 39 50Z" fill="#183D70"/>
+      </g>
+      <text x="235" y="163" font-family="Arial" font-size="12" font-weight="700" fill="#274C80" text-anchor="middle">À VOUS DE JOUER</text>
+    `,
+    uno: `
+      <rect width="320" height="185" fill="#F5D8DC"/>
+      <circle cx="252" cy="35" r="62" fill="#EDB7C0" opacity=".6"/>
+      <g transform="translate(89 21) rotate(-13 38 59)">
+        <rect x="0" y="0" width="76" height="116" rx="12" fill="#E43B3B" stroke="#FFFFFF" stroke-width="4"/>
+        <ellipse cx="38" cy="58" rx="25" ry="42" fill="#FFFFFF" transform="rotate(23 38 58)"/>
+        <text x="38" y="69" font-family="Arial Black, Arial" font-size="30" font-weight="900" font-style="italic" fill="#E43B3B" text-anchor="middle">UNO</text>
+      </g>
+      <g transform="translate(167 39) rotate(12 34 52)">
+        <rect x="0" y="0" width="66" height="101" rx="10" fill="#F6C945" stroke="#FFFFFF" stroke-width="4"/>
+        <ellipse cx="33" cy="50" rx="22" ry="36" fill="#FFFFFF" transform="rotate(23 33 50)"/>
+        <text x="33" y="59" font-family="Arial Black, Arial" font-size="24" font-weight="900" fill="#2458A6" text-anchor="middle">7</text>
+      </g>
+      <text x="250" y="163" font-family="Arial" font-size="13" font-weight="700" fill="#9C3347" text-anchor="middle">COULEURS & ACTION</text>
+    `,
+    devinetes: `
+      <rect width="320" height="185" fill="#E8DFF4"/>
+      <circle cx="253" cy="39" r="60" fill="#D2C0EA" opacity=".7"/>
+      <g transform="translate(112 22)">
+        <path d="M22 35L8 8L43 24L72 7L65 40" fill="#B77B54" stroke="#754D38" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M18 33Q43 17 67 35L75 79Q70 105 43 107Q16 105 11 79Z" fill="#D99A69" stroke="#754D38" stroke-width="3"/>
+        <path d="M22 53Q29 47 35 53M51 53Q58 47 64 53" fill="none" stroke="#3D3340" stroke-width="4" stroke-linecap="round"/>
+        <ellipse cx="43" cy="70" rx="16" ry="11" fill="#F7E7D5"/>
+        <ellipse cx="43" cy="66" rx="6" ry="4" fill="#3D3340"/>
+        <path d="M34 82Q43 90 52 82" fill="none" stroke="#754D38" stroke-width="3" stroke-linecap="round"/>
+        <path d="M70 10Q89 -2 93 15Q95 28 80 28" fill="#FFFFFF" stroke="#7D5AA6" stroke-width="3"/>
+        <text x="81" y="20" font-family="Arial" font-size="15" font-weight="bold" fill="#7D5AA6" text-anchor="middle">?</text>
+      </g>
+      <text x="230" y="163" font-family="Arial" font-size="13" font-weight="700" fill="#684A8E" text-anchor="middle">DEVINE QUI ?</text>
+    `,
+    puissance4: `
+      <rect width="320" height="185" fill="#F6E5A9"/>
+      <circle cx="258" cy="38" r="60" fill="#EBD27B" opacity=".7"/>
+      <g transform="translate(83 17)">
+        <rect x="0" y="0" width="154" height="119" rx="10" fill="#2465B8" stroke="#17477F" stroke-width="4"/>
+        ${Array.from({length:6}, (_,r) => Array.from({length:7}, (_,c) => {
+          const fills = [
+            ["#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF"],
+            ["#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF"],
+            ["#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF"],
+            ["#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF"],
+            ["#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF"],
+            ["#FFFFFF","#FFFFFF","#E64A3B","#F4C542","#E64A3B","#FFFFFF","#FFFFFF"]
+          ];
+          let fill = fills[r][c];
+          if (r===4 && c>=2 && c<=4) fill = c===3 ? "#F4C542" : "#E64A3B";
+          if (r===3 && c===3) fill = "#F4C542";
+          return `<circle cx="${15+c*20.5}" cy="${13+r*18.5}" r="7.5" fill="${fill}" stroke="#17477F" stroke-width="1"/>`;
+        }).join("")).join("")}
+      </g>
+      <text x="160" y="158" font-family="Arial" font-size="13" font-weight="700" fill="#725B16" text-anchor="middle">ALIGNEZ 4 JETONS</text>
+    `
+  };
+  const illustration = art[game.id] || "";
+  return `<svg viewBox="0 0 320 185" role="img" aria-label="Illustration du jeu ${game.name}" xmlns="http://www.w3.org/2000/svg">${illustration}${logo}</svg>`;
+}
+
+/* AFFICHAGE DU CATALOGUE */
+
+function renderCards() {
+  grid.innerHTML = "";
+
+  games.forEach(game => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    card.innerHTML = `
+      <div class="cover ${game.cover}" aria-hidden="true">
+        ${renderIllustration(game)}
+      </div>
+
+      <div class="card-content">
+        <h2>${game.name}</h2>
+
+        <div class="meta">
+          ${game.players} · ${game.duration}
+        </div>
+
+        <p>${game.short}</p>
+
+        <button type="button">
+          Découvrir le jeu →
+        </button>
+      </div>
+    `;
+
+    card.querySelector("button").addEventListener("click", () => {
+      openGame(game.id);
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+/* AFFICHAGE DE LA PAGE D'UN JEU */
+
+function openGame(id, updateUrl = true) {
+  const game = games.find(item => item.id === id);
+
+  if (!game) {
+    showHome();
+    return;
+  }
+
+  home.hidden = true;
+  hero.hidden = true;
+  detail.hidden = false;
+
+  detail.innerHTML = `
+    <button class="back" id="backButton">
+      ← Retour au catalogue
+    </button>
+
+    <article class="detail">
+
+      <div class="detail-cover ${game.cover}" aria-hidden="true">
+        ${renderIllustration(game)}
+      </div>
+
+      <p class="meta">FICHE DU JEU</p>
+
+      <h1>${game.name}</h1>
+
+      <p>${game.description}</p>
+
+      <div class="facts">
+        <span class="fact">👥 ${game.players}</span>
+        <span class="fact">🎂 ${game.age}</span>
+        <span class="fact">⏱️ ${game.duration}</span>
+      </div>
+
+  
+${game.customContent || `
+  <h2>🎯 But du jeu</h2>
+  <p>${game.goal}</p>
+
+  <h2>📦 Matériel nécessaire</h2>
+  <p>${game.equipment}</p>
+
+  <h2>📖 Règles du jeu</h2>
+  <ol>
+    ${game.rules.map(rule => `<li>${rule}</li>`).join("")}
+  </ol>
+`}
+
+
+      <p class="note">
+        Les règles présentées ici sont un résumé pédagogique.
+        Certaines variantes ou éditions peuvent avoir des règles différentes.
+        En cas de doute, consultez le livret fourni dans la boîte.
+      </p>
+
+      <h2>🛒 Où acheter ce jeu ?</h2>
+
+      <p>
+        Retrouvez ce jeu sur le site de JouéClub.
+      </p>
+
+      <a
+        class="buy"
+        href="${game.shop}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Voir le jeu chez JouéClub ↗
+      </a>
+
+      ${game.shopNote ? `<p class="note">${game.shopNote}</p>` : ""}
+
+    </article>
+  `;
+
+  document.getElementById("backButton").addEventListener("click", showHome);
+
+  if (updateUrl) {
+    history.pushState({ game: id }, "", "#jeu/" + id);
+  }
+
+  window.scrollTo(0, 0);
+}
+
+/* RETOUR À L'ACCUEIL */
+
+function showHome(updateUrl = true) {
+  detail.hidden = true;
+  home.hidden = false;
+  hero.hidden = false;
+
+  if (updateUrl) {
+    history.pushState({}, "", location.pathname + location.search);
+  }
+
+  window.scrollTo(0, 0);
+}
+
+/* GESTION DU BOUTON PRÉCÉDENT DU NAVIGATEUR */
+
+window.addEventListener("popstate", () => {
+  const match = location.hash.match(/^#jeu\/(.+)$/);
+
+  if (match) {
+    openGame(match[1], false);
+  } else {
+    showHome(false);
+  }
+});
+
+/* INITIALISATION */
+
+renderCards();
+
+const initial = location.hash.match(/^#jeu\/(.+)$/);
+
+if (initial) {
+  openGame(initial[1], false);
+}
+</script>
+
+</body>
+</html>
