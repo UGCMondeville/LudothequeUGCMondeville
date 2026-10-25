@@ -393,16 +393,16 @@
       .detail-art { min-height: 0; }
     }
 
- @media (max-width: 540px) {
-  .topbar-inner { align-items: center; }
-  .brand h1 { font-size: clamp(28px, 7vw, 34px); }
-  .brand-icon { width: 42px; height: 42px; }
-  .game-grid { grid-template-columns: 1fr; }
-  .game-art { aspect-ratio: 1.65 / 1; }
-  .back-button { width: 100%; justify-content: flex-start; }
-  .info-grid { grid-template-columns: 1fr; }
-  .rules-heading h3 { font-size: 21px; }
-}
+    @media (max-width: 540px) {
+      .topbar-inner { align-items: center; }
+      .brand h1 { font-size: clamp(28px, 7vw, 34px); }
+      .brand-icon { width: 42px; height: 42px; }
+      .game-grid { grid-template-columns: 1fr; }
+      .game-art { aspect-ratio: 1.65 / 1; }
+      .back-button { width: 100%; justify-content: flex-start; }
+      .info-grid { grid-template-columns: 1fr; }
+      .rules-heading h3 { font-size: 21px; }
+    }
   </style>
 </head>
 
@@ -474,6 +474,7 @@
         duration: "Variable",
         retailer: "JouéClub",
         productUrl: null,
+        rulesUrl: "https://gusandco.net/2020/03/28/cartes-jeux-idees/",
         description: "Un jeu de cartes traditionnel pour une grande variété de jeux.",
         rules: [
           "Choisissez un jeu auquel vous souhaitez jouer, par exemple la bataille ou le pouilleux.",
@@ -493,8 +494,8 @@
         players: "2 à 10 joueurs",
         age: "Dès 7 ans",
         duration: "15 min",
-        retailer: "JouéClub",
-        productUrl: "https://www.joueclub.fr/",
+        retailer: "Cultura",
+        productUrl: "https://www.cultura.com/p-mattel-games-uno-jeu-de-cartes-famille-7-ans-et-5011363519677.html",
         description: "Débarrassez-vous de vos cartes en associant couleurs et chiffres. Attention aux cartes spéciales !",
         rules: [
           "Distribuez 7 cartes à chaque joueur et placez le reste en pioche. Retournez une carte pour commencer la pile de défausse.",
@@ -514,7 +515,7 @@
         age: "Dès 4 ans",
         duration: "15 min",
         retailer: "JouéClub",
-        productUrl: "https://www.joueclub.fr/",
+        productUrl: "https://www.joueclub.fr/jeux-de-societe/la-pat-patrouille-devine-tete-0681147032491.html",
         description: "Un jeu de devinettes amusant sur le thème de la Pat'Patrouille.",
         rules: [
           "Un joueur place une carte sur son bandeau sans regarder l'image.",
@@ -534,7 +535,7 @@
         age: "Dès 6 ans",
         duration: "10 min",
         retailer: "JouéClub",
-        productUrl: "https://www.joueclub.fr/",
+        productUrl: "https://www.joueclub.fr/jeux-de-societes/puissance-4-5010993697601.html",
         description: "Alignez quatre jetons de votre couleur avant votre adversaire.",
         rules: [
           "Chaque joueur choisit une couleur de jetons.",
@@ -546,7 +547,7 @@
         color: "#dbe8ff",
         scene: "connect"
       },
-            {
+      {
         id: "les-evades",
         name: "Les Évadés",
         category: "Stratégie",
@@ -574,7 +575,7 @@
         age: "Dès 5 ans",
         duration: "15 à 30 min",
         retailer: "JouéClub",
-        productUrl: "https://www.joueclub.fr/contenu/tout-l-univers-de-jeux-de-societe.html",
+        productUrl: "https://www.joueclub.fr/jeux-de-societe/la-tour-infernale-3393143395889.html",
         description: "Un jeu d'adresse où il faut retirer ou déplacer des pièces sans faire s'écrouler la tour.",
         rules: [
           "Construisez la tour en empilant les pièces comme indiqué dans la notice.",
@@ -654,7 +655,7 @@
         age: "Dès 8 ans",
         duration: "Variable",
         retailer: "Cultura",
-        productUrl: "https://www.cultura.com/search?q=Roll%27n%20Bump",
+        productUrl: "https://www.cultura.com/p-roll-n-bump-gigamic-10827705.html",
         description: "Un jeu convivial mêlant dés et cartes, dans lequel il faut tenter de réaliser les meilleures combinaisons.",
         rules: [
           "Préparez les dés et les cartes en suivant la mise en place de la notice.",
@@ -679,8 +680,7 @@
         "'": "&#039;"
       })[char]);
     }
-
-    function renderIllustration(game) {
+        function renderIllustration(game) {
       const scenes = {
         dominos: `
           <g transform="rotate(-13 180 150)">
@@ -836,7 +836,8 @@
           ${scenes[game.scene] || ""}
         </svg>`;
     }
-        function renderCard(game) {
+
+    function renderCard(game) {
       return `
         <article class="game-card"
           tabindex="0"
@@ -857,12 +858,67 @@
         </article>`;
     }
 
+    function sortGames(sortBy) {
+      const grid = document.getElementById("game-grid");
+      if (!grid) return;
+
+      const sortedGames = [...games];
+
+      if (sortBy === "name-asc") {
+        sortedGames.sort((a, b) =>
+          a.name.localeCompare(b.name, "fr")
+        );
+      } else if (sortBy === "name-desc") {
+        sortedGames.sort((a, b) =>
+          b.name.localeCompare(a.name, "fr")
+        );
+      } else if (sortBy === "players-asc" || sortBy === "players-desc") {
+        const getPlayerCount = game => {
+          if (game.players.toLowerCase() === "variable") return null;
+
+          const match = game.players.match(/\d+/);
+          return match ? Number(match[0]) : null;
+        };
+
+        sortedGames.sort((a, b) => {
+          const aCount = getPlayerCount(a);
+          const bCount = getPlayerCount(b);
+
+          // Les jeux dont le nombre de joueurs est indéterminé restent à la fin.
+          if (aCount === null && bCount === null) return 0;
+          if (aCount === null) return 1;
+          if (bCount === null) return -1;
+
+          return sortBy === "players-asc"
+            ? aCount - bCount
+            : bCount - aCount;
+        });
+      }
+
+      grid.innerHTML = sortedGames.map(renderCard).join("");
+    }
+
     function renderCatalogue() {
       app.innerHTML = `
         <section class="intro">
           <h2>Découvrez nos jeux 🎲</h2>
           <p>Retrouvez les jeux de la ludothèque, consultez leurs règles et découvrez où les trouver.</p>
         </section>
+
+        <div class="actions" style="margin-bottom: 20px;">
+          <label for="game-sort" style="color: white; font-weight: 700;">
+            Trier les jeux :
+          </label>
+          <select id="game-sort" class="button"
+                  onchange="sortGames(this.value)"
+                  aria-label="Trier les jeux">
+            <option value="default">Ordre initial</option>
+            <option value="name-asc">Nom : A à Z</option>
+            <option value="name-desc">Nom : Z à A</option>
+            <option value="players-asc">Nombre de joueurs : croissant</option>
+            <option value="players-desc">Nombre de joueurs : décroissant</option>
+          </select>
+        </div>
 
         <section class="game-grid" id="game-grid" aria-label="Catalogue des jeux">
           ${games.map(renderCard).join("")}
@@ -898,6 +954,17 @@
             <div class="rules-tip">
               <strong>💡 Notre conseil</strong>
               ${escapeHtml(game.tip)}
+            </div>
+          ` : ""}
+
+          ${game.rulesUrl ? `
+            <div class="actions" style="margin-top: 18px;">
+              <a class="button button-primary"
+                 href="${escapeHtml(game.rulesUrl)}"
+                 target="_blank"
+                 rel="noopener noreferrer">
+                Découvrir d'autres jeux de cartes ↗
+              </a>
             </div>
           ` : ""}
         </section>`;
@@ -1009,4 +1076,3 @@
   </script>
 </body>
 </html>
-    
