@@ -1,757 +1,1008 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ma Ludothèque UGC Mondeville</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ma ludothèque à UGC Mondeville</title>
 
-<style>
-:root {
-  --fond: #031788;
-  --texte: #ffffff;
-  --carte: #ffffff;
-  --texte-carte: #20243a;
-  --accent: #f3c842;
-  --bouton: #1739a8;
-  --bordure: #e0e3ec;
-}
+  <style>
+    :root {
+      --bg: #f5f6fa;
+      --surface: #ffffff;
+      --text: #202438;
+      --muted: #73788b;
+      --primary: #5546d7;
+      --primary-dark: #4032b5;
+      --border: #e6e8f0;
+      --radius: 20px;
+      --shadow: 0 8px 28px rgba(35, 39, 70, 0.09);
+    }
 
-* {
-  box-sizing: border-box;
-}
+    * { box-sizing: border-box; }
 
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--fond);
-  color: var(--texte);
-}
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-header {
-  padding: 28px 20px;
-  text-align: center;
-}
+    button, a { font: inherit; }
+    a { color: inherit; }
 
-header h1 {
-  margin: 0 auto 12px;
-  text-align: center;
-  font-size: clamp(2rem, 5vw, 3.4rem);
-  line-height: 1.15;
-  font-weight: 800;
-}
+    .topbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 20px;
+    }
 
-header p {
-  margin: 0 auto;
-  color: #e2e7ff;
-  font-size: 1rem;
-  line-height: 1.5;
-}
+    .topbar-inner {
+      width: min(1100px, 100%);
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
 
-main {
-  width: min(1200px, calc(100% - 32px));
-  margin: 0 auto;
-  padding-bottom: 40px;
-}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-.intro {
-  padding: 20px;
-  margin-bottom: 22px;
-  border-radius: 12px;
-  background: var(--carte);
-  color: var(--texte-carte);
-}
+    .brand-icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      background: var(--primary);
+      color: white;
+      font-size: 25px;
+      flex-shrink: 0;
+    }
 
-.intro h2 {
-  margin: 0 0 8px;
-}
+    .brand h1 { font-size: 20px; margin: 0; }
 
-.intro p {
-  margin: 0;
-  line-height: 1.6;
-}
+    .brand p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
 
-.filtres {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 22px;
-}
+    .count {
+      background: #efedff;
+      color: var(--primary-dark);
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 13px;
+      white-space: nowrap;
+    }
 
-.filtres input,
-.filtres select {
-  min-height: 44px;
-  padding: 10px 13px;
-  border: 1px solid var(--bordure);
-  border-radius: 8px;
-  background: #fff;
-  color: #20243a;
-  font: inherit;
-}
+    main {
+      width: min(1100px, calc(100% - 32px));
+      margin: 28px auto 60px;
+    }
 
-.filtres input {
-  flex: 1 1 240px;
-}
+    .intro { margin-bottom: 24px; }
 
-.filtres select {
-  flex: 0 1 220px;
-}
+    .intro h2 {
+      margin: 0 0 8px;
+      font-size: clamp(25px, 4vw, 36px);
+    }
 
-.jeux {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 18px;
-}
+    .intro p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
 
-.jeu {
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--bordure);
-  border-radius: 12px;
-  background: var(--carte);
-  color: var(--texte-carte);
-}
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
 
-.illustration {
-  height: 165px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-  font-size: 4.5rem;
-  background: #edf0fa;
-}
+    .game-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
 
-.illustration svg {
-  max-width: 100%;
-  height: 140px;
-}
+    .game-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 13px 34px rgba(35, 39, 70, .14);
+    }
 
-.contenu-jeu {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 16px;
-}
+    .game-card:focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 3px;
+    }
 
-.categorie {
-  align-self: flex-start;
-  display: inline-block;
-  margin-bottom: 9px;
-  padding: 5px 9px;
-  border-radius: 20px;
-  background: #e9edff;
-  color: #1739a8;
-  font-size: 0.75rem;
-  font-weight: bold;
-}
+    .game-art {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1.55 / 1;
+      background: #f0efff;
+    }
 
-.jeu h3 {
-  margin: 0 0 8px;
-  font-size: 1.1rem;
-}
+    .game-content { padding: 17px; }
 
-.jeu p {
-  flex: 1;
-  margin: 0 0 15px;
-  color: #60677b;
-  font-size: 0.92rem;
-  line-height: 1.5;
-}
+    .game-content h3 {
+      margin: 0 0 8px;
+      font-size: 19px;
+    }
 
-button,
-.bouton {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 7px;
-  min-height: 42px;
-  padding: 10px 14px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--bouton);
-  color: #fff;
-  font: inherit;
-  font-weight: bold;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-}
+    .game-content p {
+      margin: 0 0 15px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
 
-button:hover,
-.bouton:hover {
-  filter: brightness(1.12);
-}
+    .meta, .detail-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
 
-.jeu button {
-  width: 100%;
-  margin-top: auto;
-}
+    .tag {
+      background: #f1f2f8;
+      border-radius: 999px;
+      padding: 6px 9px;
+      color: #555a70;
+      font-size: 12px;
+      font-weight: 650;
+    }
 
-.page-detail {
-  display: none;
-}
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 22px;
+      padding: 15px 22px;
+      background: #fff;
+      color: var(--primary-dark);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      box-shadow: 0 4px 14px rgba(35, 39, 70, .06);
+      font-size: 17px;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .18s ease, transform .18s ease;
+    }
 
-.retour {
-  margin-bottom: 18px;
-  background: #fff;
-  color: var(--fond);
-}
+    .back-button:hover {
+      background: #efedff;
+      transform: translateX(-3px);
+    }
 
-.detail-carte {
-  overflow: hidden;
-  border-radius: 12px;
-  background: #fff;
-  color: var(--texte-carte);
-}
+    .back-button:focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 3px;
+    }
 
-.detail-haut {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: 25px;
-  align-items: center;
-  padding: 25px;
-  background: #edf0fa;
-}
+    .detail {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
 
-.detail-illustration {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 240px;
-  border-radius: 10px;
-  background: #fff;
-  font-size: 7rem;
-}
+    .detail-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
 
-.detail-illustration svg {
-  max-width: 100%;
-  height: 220px;
-}
+    .detail-art {
+      width: 100%;
+      height: 100%;
+      min-height: 300px;
+      display: block;
+      background: #f0efff;
+    }
 
-.detail-infos h2 {
-  margin: 8px 0 12px;
-  font-size: clamp(1.7rem, 4vw, 2.6rem);
-}
+    .detail-info { padding: clamp(22px, 4vw, 38px); }
 
-.detail-infos p {
-  line-height: 1.7;
-  color: #505970;
-}
+    .detail-info h2 {
+      font-size: clamp(28px, 4vw, 38px);
+      line-height: 1.12;
+      margin: 0 0 14px;
+    }
 
-.metadonnees {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin: 20px 0;
-}
+    .detail-description {
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 22px;
+    }
 
-.meta {
-  padding: 13px;
-  border: 1px solid var(--bordure);
-  border-radius: 8px;
-  background: #fff;
-}
+    .detail-meta { margin-bottom: 24px; }
 
-.meta small {
-  display: block;
-  margin-bottom: 5px;
-  color: #697188;
-  text-transform: uppercase;
-  font-size: 0.72rem;
-}
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 16px;
-}
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 12px;
+      padding: 13px 18px;
+      text-decoration: none;
+      font-weight: 750;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      background: white;
+      color: var(--text);
+      transition: background .18s ease;
+    }
 
-.bouton-secondaire {
-  background: #edf0fa;
-  color: #20243a;
-}
+    .button-primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
 
-.regles {
-  padding: 25px;
-}
+    .button-primary:hover { background: var(--primary-dark); }
 
-.regles h3 {
-  margin-top: 0;
-}
+    .rules-section {
+      border-top: 1px solid var(--border);
+      padding: clamp(22px, 4vw, 32px);
+      background: #fff;
+    }
 
-.regles p {
-  line-height: 1.7;
-  color: #505970;
-}
+    .rules-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
 
-.vide {
-  grid-column: 1 / -1;
-  padding: 30px;
-  border-radius: 12px;
-  background: #fff;
-  color: #20243a;
-  text-align: center;
-}
+    .rules-icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      border-radius: 13px;
+      background: #efedff;
+      font-size: 23px;
+    }
 
-footer {
-  padding: 22px 15px;
-  color: #e2e7ff;
-  text-align: center;
-  font-size: 0.85rem;
-}
+    .rules-heading h3 {
+      margin: 0;
+      font-size: 23px;
+    }
 
-@media (max-width: 1000px) {
-  .jeux {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
+    .rules-intro {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
 
-@media (max-width: 720px) {
-  header {
-    padding: 24px 14px;
-  }
+    .rules-steps { display: grid; gap: 12px; }
 
-  .jeux {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
+    .rule-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 17px;
+      background: #f8f8fc;
+      border: 1px solid #ececf5;
+      border-radius: 15px;
+    }
 
-  main {
-    width: calc(100% - 24px);
-  }
+    .rule-number {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      border-radius: 11px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 850;
+      font-size: 15px;
+    }
 
-  .illustration {
-    height: 135px;
-    font-size: 3.5rem;
-  }
+    .rule-step p {
+      margin: 2px 0 0;
+      color: #51566b;
+      line-height: 1.65;
+    }
 
-  .illustration svg {
-    height: 115px;
-  }
+    .rules-tip {
+      margin-top: 18px;
+      padding: 15px 17px;
+      border-radius: 14px;
+      background: #fff7e4;
+      color: #735522;
+      line-height: 1.6;
+      font-size: 14px;
+    }
 
-  .contenu-jeu {
-    padding: 12px;
-  }
+    .rules-tip strong {
+      display: block;
+      margin-bottom: 4px;
+    }
 
-  .jeu h3 {
-    font-size: 1rem;
-  }
+    .info-section {
+      border-top: 1px solid var(--border);
+      padding: clamp(22px, 4vw, 32px);
+    }
 
-  .detail-haut {
-    grid-template-columns: 1fr;
-    padding: 16px;
-  }
+    .info-section h3 {
+      margin: 0 0 15px;
+      font-size: 21px;
+    }
 
-  .detail-illustration {
-    min-height: 190px;
-  }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
 
-  .detail-illustration svg {
-    height: 175px;
-  }
+    .info-item {
+      background: #f8f8fc;
+      border: 1px solid #ececf5;
+      border-radius: 13px;
+      padding: 14px;
+    }
 
-  .regles {
-    padding: 20px 16px;
-  }
-}
+    .info-label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 5px;
+    }
 
-@media (max-width: 390px) {
-  .jeux {
-    grid-template-columns: 1fr;
-  }
+    .info-value { font-size: 15px; font-weight: 750; }
 
-  .illustration {
-    height: 160px;
-  }
+    footer {
+      padding: 25px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
 
-  .illustration svg {
-    height: 140px;
-  }
+    @media (max-width: 850px) {
+      .game-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .detail-top { grid-template-columns: 1fr; }
+      .detail-art { min-height: 0; }
+    }
 
-  .metadonnees {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
+    @media (max-width: 540px) {
+      .topbar-inner { align-items: flex-start; }
+      .brand h1 { font-size: 17px; }
+      .brand-icon { width: 42px; height: 42px; }
+      .count { font-size: 11px; padding: 8px 10px; }
+      .game-grid { grid-template-columns: 1fr; }
+      .game-art { aspect-ratio: 1.65 / 1; }
+      .back-button { width: 100%; justify-content: flex-start; }
+      .info-grid { grid-template-columns: 1fr; }
+      .rules-heading h3 { font-size: 21px; }
+    }
+  </style>
 </head>
 
 <body>
-
-<header>
-  <h1>Ma Ludothèque UGC Mondeville</h1>
-  <p>Découvrez les jeux disponibles et trouvez votre prochain jeu préféré !</p>
-</header>
-
-<main>
-  <section id="accueil">
-    <div class="intro">
-      <h2>Bienvenue dans notre ludothèque !</h2>
-      <p>Parcourez les jeux, découvrez leurs règles et consultez les informations de chaque jeu.</p>
-    </div>
-
-    <div class="filtres">
-      <input id="recherche" type="search" placeholder="Rechercher un jeu..." aria-label="Rechercher un jeu">
-      <select id="filtre-categorie" aria-label="Filtrer par catégorie">
-        <option value="Toutes">Toutes les catégories</option>
-        <option value="Cartes">Cartes</option>
-        <option value="Ambiance">Ambiance</option>
-        <option value="Adresse">Adresse</option>
-        <option value="Réflexion">Réflexion</option>
-        <option value="Dés">Dés</option>
-      </select>
-    </div>
-
-    <div id="liste-jeux" class="jeux"></div>
-  </section>
-
-  <section id="page-detail" class="page-detail">
-    <button id="retour" class="retour" type="button">← Retour à la ludothèque</button>
-    <div id="detail"></div>
-  </section>
-</main>
-
-<footer>Ma Ludothèque UGC Mondeville</footer>
-
-<script>
-const jeux = [
-  {
-    id: "dominos",
-    nom: "Dominos",
-    categorie: "Réflexion",
-    joueurs: "2 à 4 joueurs",
-    duree: "15 à 30 min",
-    age: "Dès 6 ans",
-    emoji: "🁣",
-    couleur: "#f8e5b3",
-    description: "Un grand classique où il faut associer les dominos en faisant correspondre les mêmes nombres.",
-    regles: "À tour de rôle, posez un domino dont l'une des extrémités correspond à une extrémité libre de la chaîne. Le premier joueur qui n'a plus de dominos gagne la manche.",
-    lien: "https://www.joueclub.fr/jeux-de-societes/jeu-de-dominos-3393143340384.html"
-  },
-  {
-    id: "mikado",
-    nom: "Mikado",
-    categorie: "Adresse",
-    joueurs: "2 joueurs ou plus",
-    duree: "10 à 20 min",
-    age: "Dès 5 ans",
-    emoji: "🥢",
-    couleur: "#f9e6c9",
-    description: "Un jeu d'adresse et de patience : retirez les baguettes sans faire bouger les autres.",
-    regles: "Chaque joueur retire délicatement une baguette sans déplacer les autres. Le joueur qui obtient le plus de points gagne.",
-    lien: "https://www.joueclub.fr/jeux-de-societe/mikado-3393143400248.html"
-  },
-  {
-    id: "cartes-54",
-    nom: "Jeu de 54 cartes",
-    categorie: "Cartes",
-    joueurs: "2 joueurs ou plus",
-    duree: "Variable",
-    age: "Dès 6 ans",
-    emoji: "🂡",
-    couleur: "#e4eaff",
-    description: "Un jeu de cartes classique pour jouer à de nombreux jeux : bataille, rami et bien d'autres.",
-    regles: "Choisissez un jeu adapté au nombre de joueurs, distribuez les cartes selon ses règles et lancez la partie.",
-    lien: null,
-    illustrationCartes: true
-  },
-  {
-    id: "uno",
-    nom: "UNO",
-    categorie: "Cartes",
-    joueurs: "2 à 10 joueurs",
-    duree: "15 à 30 min",
-    age: "Dès 7 ans",
-    emoji: "🃏",
-    couleur: "#ffe4e4",
-    description: "Débarrassez-vous de toutes vos cartes en associant couleurs et chiffres. Attention aux cartes spéciales !",
-    regles: "Jouez une carte de la même couleur, du même chiffre ou du même symbole que celle au sommet de la pile. Annoncez UNO lorsqu'il vous reste une seule carte.",
-    lien: "https://www.joueclub.fr/jeux-de-societe/uno-classique-jeu-de-cartes-0746775036744.html"
-  },
-  {
-    id: "devine-tete",
-    nom: "La Pat'Patrouille - Devine Tête",
-    categorie: "Ambiance",
-    joueurs: "2 joueurs ou plus",
-    duree: "15 min",
-    age: "Dès 4 ans",
-    emoji: "🐾",
-    couleur: "#e3f2ff",
-    description: "Un jeu de devinettes amusant dans l'univers de la Pat'Patrouille.",
-    regles: "Un joueur porte une carte sans la regarder. Il pose des questions auxquelles les autres répondent par oui ou non pour deviner l'image.",
-    lien: "https://www.joueclub.fr/jeux-de-societe/la-pat-patrouille-devine-tete-0681147032491.html"
-  },
-  {
-    id: "puissance-4",
-    nom: "Puissance 4",
-    categorie: "Réflexion",
-    joueurs: "2 joueurs",
-    duree: "10 à 20 min",
-    age: "Dès 6 ans",
-    emoji: "🔴",
-    couleur: "#e3edff",
-    description: "Alignez quatre jetons de votre couleur avant votre adversaire.",
-    regles: "À tour de rôle, faites tomber un jeton dans une colonne. Le premier joueur à aligner quatre jetons horizontalement, verticalement ou en diagonale remporte la partie.",
-    lien: "https://www.joueclub.fr/jeux-de-societes/puissance-4-5010993697601.html"
-  },
-  {
-    id: "les-evades",
-    nom: "Les Évadés",
-    categorie: "Ambiance",
-    joueurs: "Selon la version",
-    duree: "Variable",
-    age: "Selon la version",
-    emoji: "🔐",
-    couleur: "#e8e6ff",
-    description: "Un jeu à partager en groupe, où stratégie et observation peuvent faire la différence.",
-    regles: "Consultez les règles de votre boîte pour préparer la partie, définir les objectifs et déterminer le vainqueur.",
-    lien: null
-  },
-  {
-    id: "tour-infernale",
-    nom: "La Tour Infernale",
-    categorie: "Adresse",
-    joueurs: "2 joueurs ou plus",
-    duree: "10 à 20 min",
-    age: "Dès 6 ans",
-    emoji: "🗼",
-    couleur: "#fff0d9",
-    description: "Retirez les pièces de la tour et replacez-les au sommet sans faire s'écrouler la construction.",
-    regles: "Chaque joueur retire une pièce puis la place au sommet. Celui qui fait tomber la tour perd la partie.",
-    lien: "https://www.joueclub.fr/jeux-de-societe/la-tour-infernale-3393143395889.html"
-  },
-  {
-    id: "mamie-moule-maki",
-    nom: "Mamie Moule Maki",
-    categorie: "Ambiance",
-    joueurs: "3 joueurs ou plus",
-    duree: "20 à 30 min",
-    age: "Selon la version",
-    emoji: "💬",
-    couleur: "#ffe6f1",
-    description: "Un jeu de mots et de créativité qui met l'imagination des joueurs à l'épreuve.",
-    regles: "Suivez la consigne de la manche et trouvez des réponses originales ou amusantes.",
-    lien: null
-  },
-  {
-    id: "suite-infernale",
-    nom: "La Suite Infernale",
-    categorie: "Cartes",
-    joueurs: "Selon la version",
-    duree: "15 à 30 min",
-    age: "Selon la version",
-    emoji: "🎴",
-    couleur: "#e2f8ed",
-    description: "Un jeu de cartes rythmé qui demande de l'attention et de la rapidité.",
-    regles: "Suivez les consignes indiquées dans votre boîte pour enchaîner les cartes et tenter de gagner.",
-    lien: null
-  },
-  {
-    id: "flip-7",
-    nom: "Flip 7",
-    categorie: "Cartes",
-    joueurs: "3 joueurs ou plus",
-    duree: "20 min",
-    age: "Dès 8 ans",
-    emoji: "🎯",
-    couleur: "#fff0c9",
-    description: "Un jeu de cartes où il faut savoir prendre des risques ou s'arrêter à temps.",
-    regles: "Révélez des cartes et accumulez des points, mais attention à ne pas révéler deux fois le même numéro.",
-    lien: null
-  },
-  {
-    id: "roll-n-bump",
-    nom: "Roll'n Bump",
-    categorie: "Dés",
-    joueurs: "2 à 5 joueurs",
-    duree: "20 à 30 min",
-    age: "Dès 8 ans",
-    emoji: "🎲",
-    couleur: "#e7edff",
-    description: "Lancez les dés, réalisez les combinaisons recherchées et tentez de récupérer les meilleures cartes.",
-    regles: "Lancez vos dés pour réaliser les combinaisons permettant de récupérer des cartes. Choisissez les bonnes prises de risque pour marquer un maximum de points.",
-    lien: "https://www.cultura.com/p-roll-n-bump-gigamic-10827705.html"
-  }
-];
-
-const accueil = document.getElementById("accueil");
-const pageDetail = document.getElementById("page-detail");
-const listeJeux = document.getElementById("liste-jeux");
-const detail = document.getElementById("detail");
-const recherche = document.getElementById("recherche");
-const filtreCategorie = document.getElementById("filtre-categorie");
-
-function echapper(texte) {
-  return String(texte).replace(/[&<>"']/g, caractere => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  })[caractere]);
-}
-
-function illustration(jeu, grande = false) {
-  if (jeu.illustrationCartes) {
-    return `
-      <svg viewBox="0 0 260 170" role="img" aria-label="Deux cartes à jouer">
-        <g transform="translate(48 16) rotate(-13 55 70)">
-          <rect x="7" y="5" width="100" height="145" rx="9" fill="#fff" stroke="#d8dff0" stroke-width="2"/>
-          <text x="20" y="31" font-size="22" font-weight="bold" fill="#d62f45">A</text>
-          <text x="20" y="52" font-size="20" fill="#d62f45">♥</text>
-          <text x="57" y="95" font-size="51" text-anchor="middle" fill="#d62f45">♥</text>
-          <text x="92" y="134" font-size="22" font-weight="bold" text-anchor="end" fill="#d62f45">A</text>
-        </g>
-        <g transform="translate(111 15) rotate(12 55 70)">
-          <rect x="7" y="5" width="100" height="145" rx="9" fill="#fff" stroke="#d8dff0" stroke-width="2"/>
-          <text x="20" y="31" font-size="22" font-weight="bold" fill="#18244d">K</text>
-          <text x="20" y="52" font-size="20" fill="#18244d">♠</text>
-          <text x="57" y="95" font-size="51" text-anchor="middle" fill="#18244d">♠</text>
-          <text x="92" y="134" font-size="22" font-weight="bold" text-anchor="end" fill="#18244d">K</text>
-        </g>
-      </svg>`;
-  }
-
-  if (jeu.id === "uno") {
-    return `
-      <svg viewBox="0 0 260 170" role="img" aria-label="Cartes UNO colorées">
-        <g transform="translate(35 20) rotate(-14 55 65)">
-          <rect x="8" y="5" width="86" height="130" rx="13" fill="#ed2939" stroke="#fff" stroke-width="4"/>
-          <ellipse cx="51" cy="70" rx="31" ry="45" fill="#fff" transform="rotate(-25 51 70)"/>
-          <text x="51" y="83" font-size="35" font-weight="900" text-anchor="middle" fill="#ed2939">U</text>
-        </g>
-        <g transform="translate(90 10) rotate(8 55 65)">
-          <rect x="8" y="5" width="86" height="130" rx="13" fill="#ffd43b" stroke="#fff" stroke-width="4"/>
-          <ellipse cx="51" cy="70" rx="31" ry="45" fill="#fff" transform="rotate(-25 51 70)"/>
-          <text x="51" y="83" font-size="35" font-weight="900" text-anchor="middle" fill="#172033">N</text>
-        </g>
-        <g transform="translate(145 22) rotate(17 45 60)">
-          <rect x="8" y="5" width="75" height="115" rx="12" fill="#1778dd" stroke="#fff" stroke-width="4"/>
-          <ellipse cx="45" cy="62" rx="27" ry="39" fill="#fff" transform="rotate(-25 45 62)"/>
-          <text x="45" y="75" font-size="31" font-weight="900" text-anchor="middle" fill="#1778dd">O</text>
-        </g>
-      </svg>`;
-  }
-
-  return `<span aria-hidden="true">${echapper(jeu.emoji)}</span>`;
-}
-
-function afficherJeux() {
-  const terme = recherche.value.trim().toLocaleLowerCase("fr");
-  const categorie = filtreCategorie.value;
-
-  const resultats = jeux.filter(jeu => {
-    const correspondTexte =
-      jeu.nom.toLocaleLowerCase("fr").includes(terme) ||
-      jeu.description.toLocaleLowerCase("fr").includes(terme) ||
-      jeu.categorie.toLocaleLowerCase("fr").includes(terme);
-
-    const correspondCategorie =
-      categorie === "Toutes" || jeu.categorie === categorie;
-
-    return correspondTexte && correspondCategorie;
-  });
-
-  if (!resultats.length) {
-    listeJeux.innerHTML = `
-      <div class="vide">
-        <h3>Aucun jeu trouvé</h3>
-        <p>Essaie un autre nom ou une autre catégorie.</p>
-      </div>`;
-    return;
-  }
-
-  listeJeux.innerHTML = resultats.map(jeu => `
-    <article class="jeu">
-      <div class="illustration" style="background:${jeu.couleur}">
-        ${illustration(jeu)}
-      </div>
-      <div class="contenu-jeu">
-        <span class="categorie">${echapper(jeu.categorie)}</span>
-        <h3>${echapper(jeu.nom)}</h3>
-        <p>${echapper(jeu.description)}</p>
-        <button type="button" data-id="${echapper(jeu.id)}">Découvrir le jeu →</button>
-      </div>
-    </article>
-  `).join("");
-
-  listeJeux.querySelectorAll("[data-id]").forEach(bouton => {
-    bouton.addEventListener("click", () => ouvrirJeu(bouton.dataset.id));
-  });
-}
-
-function ouvrirJeu(id) {
-  const jeu = jeux.find(element => element.id === id);
-  if (!jeu) return;
-
-  accueil.style.display = "none";
-  pageDetail.style.display = "block";
-
-  const boutonProduit = jeu.lien
-    ? `<a class="bouton" href="${echapper(jeu.lien)}" target="_blank" rel="noopener noreferrer">Voir le jeu en ligne ↗</a>`
-    : "";
-
-  detail.innerHTML = `
-    <article class="detail-carte">
-      <div class="detail-haut">
-        <div class="detail-illustration" style="background:${jeu.couleur}">
-          ${illustration(jeu, true)}
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">🎲</div>
+        <div>
+          <h1>Ma ludothèque</h1>
+          <p>UGC Mondeville</p>
         </div>
-        <div class="detail-infos">
-          <span class="categorie">${echapper(jeu.categorie)}</span>
-          <h2>${echapper(jeu.nom)}</h2>
-          <p>${echapper(jeu.description)}</p>
+      </div>
+      <div class="count" id="game-count">12 jeux</div>
+    </div>
+  </header>
 
-          <div class="metadonnees">
+  <main id="app"></main>
+
+  <footer>Ma ludothèque à UGC Mondeville</footer>
+
+  <script>
+    const games = [
+      {
+        id: "dominos",
+        name: "Dominos",
+        category: "Classique",
+        players: "2 à 4 joueurs",
+        age: "Dès 5 ans",
+        duration: "15 min",
+        retailer: "JouéClub",
+        productUrl: "https://www.joueclub.fr/jeux-de-societes/jeu-de-dominos-3393143340384.html",
+        description: "Un grand classique où il faut associer les dominos par leurs nombres de points.",
+        rules: [
+          "Mélangez les dominos et distribuez-en un certain nombre à chaque joueur. Les dominos restants forment la pioche.",
+          "À tour de rôle, posez un domino dont l'une des extrémités correspond au nombre de points d'une extrémité de la chaîne.",
+          "Si vous ne pouvez pas jouer, piochez ou passez votre tour selon la variante choisie.",
+          "Le premier joueur qui pose tous ses dominos gagne la manche."
+        ],
+        tip: "Observez les chiffres présents aux deux extrémités de la chaîne pour anticiper vos prochains coups.",
+        color: "#f6dfad",
+        scene: "dominos"
+      },
+      {
+        id: "mikado",
+        name: "Mikado",
+        category: "Adresse",
+        players: "2 joueurs et plus",
+        age: "Dès 5 ans",
+        duration: "10 à 20 min",
+        retailer: "JouéClub",
+        productUrl: "https://www.joueclub.fr/jeux-de-societe/mikado-3393143400248.html",
+        description: "Un jeu d'adresse où il faut retirer des baguettes sans faire bouger les autres.",
+        rules: [
+          "Laissez tomber toutes les baguettes en tas sur une surface plane.",
+          "À votre tour, essayez de retirer une baguette sans déplacer les autres.",
+          "Si une autre baguette bouge, votre tour s'arrête et le joueur suivant joue.",
+          "À la fin, comptez les points des baguettes récupérées : le meilleur score gagne."
+        ],
+        tip: "Commencez par les baguettes qui sont isolées et faciles à retirer.",
+        color: "#d9f0dc",
+        scene: "mikado"
+      },
+      {
+        id: "cartes-54",
+        name: "Jeu de 54 cartes",
+        category: "Cartes",
+        players: "Variable",
+        age: "Dès 6 ans",
+        duration: "Variable",
+        retailer: "JouéClub",
+        productUrl: null,
+        description: "Un jeu de cartes traditionnel pour une grande variété de jeux.",
+        rules: [
+          "Choisissez un jeu auquel vous souhaitez jouer, par exemple la bataille ou le pouilleux.",
+          "Mélangez les cartes puis distribuez-les en suivant les règles du jeu choisi.",
+          "Jouez chacun votre tour en respectant les consignes et les objectifs de la variante.",
+          "Déterminez le gagnant en fonction des règles du jeu sélectionné."
+        ],
+        tip: "Le paquet permet de découvrir de nombreux jeux différents : choisissez les règles en fonction de l'âge et du nombre de joueurs.",
+        color: "#ffe0e1",
+        scene: "cards",
+        hideRetailerLogo: true
+      },
+      {
+        id: "uno",
+        name: "UNO",
+        category: "Cartes",
+        players: "2 à 10 joueurs",
+        age: "Dès 7 ans",
+        duration: "15 min",
+        retailer: "JouéClub",
+        productUrl: "https://www.joueclub.fr/",
+        description: "Débarrassez-vous de vos cartes en associant couleurs et chiffres. Attention aux cartes spéciales !",
+        rules: [
+          "Distribuez 7 cartes à chaque joueur et placez le reste en pioche. Retournez une carte pour commencer la pile de défausse.",
+          "À votre tour, jouez une carte de la même couleur, du même chiffre ou du même symbole que la carte visible.",
+          "Utilisez les cartes spéciales pour changer la couleur ou obliger les adversaires à piocher. Si vous ne pouvez pas jouer, piochez selon les règles.",
+          "Quand il ne vous reste qu'une carte, annoncez « UNO ! ». Le premier joueur qui n'a plus de cartes gagne la manche."
+        ],
+        tip: "Gardez vos cartes spéciales pour les moments où elles peuvent vraiment changer la partie.",
+        color: "#ffe4d0",
+        scene: "uno"
+      },
+      {
+        id: "devine-tete",
+        name: "La Pat'Patrouille - Devine Tête",
+        category: "Ambiance",
+        players: "2 joueurs et plus",
+        age: "Dès 4 ans",
+        duration: "15 min",
+        retailer: "JouéClub",
+        productUrl: "https://www.joueclub.fr/",
+        description: "Un jeu de devinettes amusant sur le thème de la Pat'Patrouille.",
+        rules: [
+          "Un joueur place une carte sur son bandeau sans regarder l'image.",
+          "À son tour, il pose des questions auxquelles les autres joueurs répondent par oui ou par non.",
+          "Utilisez les indices pour essayer de découvrir le personnage représenté sur votre carte.",
+          "Le joueur qui devine correctement son personnage remporte la manche, selon la variante choisie."
+        ],
+        tip: "Commencez par des questions générales, puis affinez avec des questions plus précises.",
+        color: "#dbeaff",
+        scene: "guess"
+      },
+      {
+        id: "puissance-4",
+        name: "Puissance 4",
+        category: "Stratégie",
+        players: "2 joueurs",
+        age: "Dès 6 ans",
+        duration: "10 min",
+        retailer: "JouéClub",
+        productUrl: "https://www.joueclub.fr/",
+        description: "Alignez quatre jetons de votre couleur avant votre adversaire.",
+        rules: [
+          "Chaque joueur choisit une couleur de jetons.",
+          "À tour de rôle, faites tomber un jeton dans la colonne de votre choix.",
+          "Essayez d'aligner quatre jetons horizontalement, verticalement ou en diagonale.",
+          "Le premier joueur qui réalise un alignement de quatre jetons gagne."
+        ],
+        tip: "Essayez de préparer votre propre alignement tout en bloquant les possibilités de votre adversaire.",
+        color: "#dbe8ff",
+        scene: "connect"
+      },
+      {
+        id: "les-evades",
+        name: "Les Évadés",
+        category: "Stratégie",
+        players: "2 à 4 joueurs",
+        age: "Dès 8 ans",
+        duration: "25 min",
+        retailer: "JouéClub",
+        productUrl: "https://www.joueclub.fr/jeux-de-societe/les-evades-3262190413306.html",
+        description: "Préparez votre évasion, récupérez des objets utiles et déjouez les obstacles pour tenter de sortir de prison.",
+        rules: [
+          "Prenez connaissance du matériel et préparez la partie comme indiqué dans la notice.",
+          "À votre tour, effectuez les actions autorisées pour avancer dans votre plan d'évasion et récupérer les objets utiles.",
+          "Adaptez votre stratégie aux obstacles rencontrés et aux actions des autres joueurs.",
+          "Le but est de réussir votre évasion en respectant les conditions de victoire du jeu."
+        ],
+        tip: "Planifiez vos actions et surveillez les opportunités qui peuvent vous faire gagner du temps.",
+        color: "#d9e4f5",
+        scene: "evades"
+      },
+      {
+        id: "tour-infernale",
+        name: "La Tour Infernale",
+        category: "Adresse",
+        players: "2 joueurs et plus",
+        age: "Dès 5 ans",
+        duration: "15 à 30 min",
+        retailer: "JouéClub",
+        productUrl: "https://www.joueclub.fr/contenu/tout-l-univers-de-jeux-de-societe.html",
+        description: "Un jeu d'adresse où il faut retirer ou déplacer des pièces sans faire s'écrouler la tour.",
+        rules: [
+          "Construisez la tour en empilant les pièces comme indiqué dans la notice.",
+          "À tour de rôle, retirez une pièce autorisée sans faire tomber la structure.",
+          "Placez la pièce retirée selon les règles du jeu, si nécessaire, puis laissez jouer le participant suivant.",
+          "Le joueur qui fait s'écrouler la tour perd la manche."
+        ],
+        tip: "Prenez votre temps et vérifiez la stabilité de la tour avant de retirer une pièce.",
+        color: "#ffe6b9",
+        scene: "tower"
+      },
+      {
+        id: "mamie-moule-maki",
+        name: "Mamie Moule Maki",
+        category: "Ambiance",
+        players: "2 joueurs et plus",
+        age: "Dès 16 ans",
+        duration: "30 min",
+        retailer: "Cultura",
+        productUrl: "https://www.cultura.com/p-mamie-moule-maki-3770017095135.html",
+        description: "Un jeu de mots et de catégories décalées pour des parties pleines de rires.",
+        rules: [
+          "Préparez les cartes et choisissez un joueur qui lira la catégorie ou la consigne.",
+          "Découvrez la catégorie et trouvez une réponse qui correspond à la consigne.",
+          "Répondez rapidement dans le temps imparti, en laissant chacun participer selon les règles.",
+          "Comptez les points ou désignez le gagnant en suivant les conditions de victoire de votre version."
+        ],
+        tip: "Laissez parler votre imagination : les réponses inattendues rendent souvent la partie encore plus drôle.",
+        color: "#f9d9ed",
+        scene: "mamie"
+      },
+      {
+        id: "suite-infernale",
+        name: "La Suite Infernale",
+        category: "Cartes",
+        players: "2 joueurs et plus",
+        age: "Dès 8 ans",
+        duration: "Variable",
+        retailer: "Cultura",
+        productUrl: "https://www.cultura.com/p-la-suite-infernale-10248242.html",
+        description: "Un jeu de cartes où il faut réussir à construire une suite de nombres sans se faire piéger.",
+        rules: [
+          "Préparez les cartes en suivant les indications de la notice.",
+          "À votre tour, jouez une carte qui vous permet de progresser dans la suite numérique.",
+          "Observez les cartes disponibles et choisissez le bon moment pour jouer.",
+          "Le gagnant est déterminé selon les objectifs et les conditions de fin de partie de la boîte."
+        ],
+        tip: "Anticipez les prochains nombres et évitez de vous retrouver bloqué.",
+        color: "#d8f2e7",
+        scene: "suite"
+      },
+      {
+        id: "flip-7",
+        name: "Flip 7",
+        category: "Prise de risque",
+        players: "3 joueurs et plus",
+        age: "Dès 8 ans",
+        duration: "20 min",
+        retailer: "Cultura",
+        productUrl: "https://www.cultura.com/p-flip-7-catch-up-games-10975386.html",
+        description: "Un jeu de cartes dynamique où il faut savoir s'arrêter avant de piocher un numéro déjà obtenu.",
+        rules: [
+          "À votre tour, choisissez de continuer à piocher ou de vous arrêter si les règles le permettent.",
+          "Chaque nouvelle carte numérotée peut augmenter votre score, mais un doublon peut faire perdre les points du tour.",
+          "Décidez si vous prenez le risque de piocher encore ou si vous sécurisez vos points.",
+          "Obtenir sept numéros différents permet de réaliser le fameux Flip 7 et de déclencher le bonus prévu par les règles."
+        ],
+        tip: "Plus vous piochez, plus vous prenez de risques : sachez quand vous arrêter.",
+        color: "#dcd7ff",
+        scene: "flip"
+      },
+      {
+        id: "roll-n-bump",
+        name: "Roll'n Bump",
+        category: "Dés et stratégie",
+        players: "Variable",
+        age: "Dès 8 ans",
+        duration: "Variable",
+        retailer: "Cultura",
+        productUrl: "https://www.cultura.com/search?q=Roll%27n%20Bump",
+        description: "Un jeu convivial mêlant dés et cartes, dans lequel il faut tenter de réaliser les meilleures combinaisons.",
+        rules: [
+          "Préparez les dés et les cartes en suivant la mise en place de la notice.",
+          "Lancez les dés et observez les résultats obtenus.",
+          "Utilisez vos résultats pour tenter de récupérer les cartes ou les combinaisons les plus intéressantes.",
+          "À la fin de la partie, comparez les résultats selon les règles pour déterminer le gagnant."
+        ],
+        tip: "Évaluez les possibilités à chaque lancer et privilégiez les choix qui servent votre objectif.",
+        color: "#ffdfcc",
+        scene: "roll"
+      }
+    ];
+
+    const app = document.getElementById("app");
+    document.getElementById("game-count").textContent = `${games.length} jeux`;
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[char]);
+    }
+
+    function renderIllustration(game) {
+      const scenes = {
+        dominos: `
+          <g transform="rotate(-13 180 150)">
+            <rect x="85" y="90" width="64" height="120" rx="8" fill="#fff" stroke="#292d43" stroke-width="4"/>
+            <line x1="88" y1="150" x2="146" y2="150" stroke="#292d43" stroke-width="4"/>
+            <g fill="#292d43">
+              <circle cx="105" cy="116" r="5"/><circle cx="130" cy="133" r="5"/>
+              <circle cx="105" cy="177" r="5"/><circle cx="130" cy="193" r="5"/>
+            </g>
+            <rect x="165" y="73" width="64" height="120" rx="8" fill="#fff" stroke="#292d43" stroke-width="4"/>
+            <line x1="168" y1="133" x2="226" y2="133" stroke="#292d43" stroke-width="4"/>
+            <g fill="#e44f59">
+              <circle cx="185" cy="98" r="5"/><circle cx="208" cy="111" r="5"/>
+              <circle cx="185" cy="159" r="5"/><circle cx="208" cy="179" r="5"/>
+            </g>
+          </g>`,
+        mikado: `
+          <g stroke-linecap="round" stroke-width="9">
+            <path d="M75 215 L220 65" stroke="#e34c58"/>
+            <path d="M85 75 L225 220" stroke="#3175d8"/>
+            <path d="M62 155 L235 155" stroke="#f0b638"/>
+            <path d="M135 60 L165 230" stroke="#3d9a6d"/>
+            <path d="M65 115 L230 190" stroke="#7b56d9"/>
+            <path d="M110 230 L205 65" stroke="#e78a38"/>
+          </g>`,
+        cards: `
+          <g transform="rotate(-12 130 145)">
+            <rect x="70" y="65" width="100" height="145" rx="12" fill="#fff" stroke="#30354a" stroke-width="4"/>
+            <text x="88" y="105" font-size="30" font-weight="900" fill="#df4452">A</text>
+            <path d="M120 145 C90 115 85 155 120 178 C155 155 150 115 120 145Z" fill="#df4452"/>
+          </g>
+          <g transform="rotate(12 190 145)">
+            <rect x="145" y="75" width="100" height="145" rx="12" fill="#fff" stroke="#30354a" stroke-width="4"/>
+            <text x="165" y="112" font-size="30" font-weight="900" fill="#222">K</text>
+            <path d="M195 135 L215 160 L195 185 L175 160Z" fill="#222"/>
+          </g>`,
+        uno: `
+          <g transform="rotate(-12 125 145)">
+            <rect x="75" y="60" width="110" height="155" rx="16" fill="#e83e49" stroke="#fff" stroke-width="5"/>
+            <ellipse cx="130" cy="138" rx="38" ry="62" fill="#fff" transform="rotate(25 130 138)"/>
+            <text x="100" y="155" font-size="43" font-weight="1000" fill="#e83e49">U</text>
+          </g>
+          <g transform="rotate(14 200 145)">
+            <rect x="160" y="82" width="82" height="125" rx="13" fill="#f6c833" stroke="#fff" stroke-width="4"/>
+            <text x="184" y="161" font-size="52" font-weight="1000" fill="#fff">7</text>
+          </g>`,
+        guess: `
+          <rect x="75" y="76" width="165" height="125" rx="18" fill="#fff" stroke="#384b75" stroke-width="4"/>
+          <circle cx="157" cy="120" r="30" fill="#ffcb9d"/>
+          <path d="M128 115 Q128 78 157 85 Q187 80 188 116 L179 104 L139 104Z" fill="#7551aa"/>
+          <circle cx="147" cy="120" r="3" fill="#333"/>
+          <circle cx="167" cy="120" r="3" fill="#333"/>
+          <path d="M148 135 Q157 143 167 135" fill="none" stroke="#b44d4d" stroke-width="3" stroke-linecap="round"/>
+          <path d="M130 174 Q157 145 184 174" fill="#4289df"/>
+          <circle cx="218" cy="68" r="21" fill="#ffcb42"/>
+          <text x="210" y="77" font-size="27" font-weight="900" fill="#4b3a9b">?</text>`,
+        connect: `
+          <rect x="82" y="60" width="154" height="170" rx="13" fill="#2768ca"/>
+          ${Array.from({length: 6}, (_, r) =>
+            Array.from({length: 7}, (_, c) =>
+              `<circle cx="${99 + c * 21}" cy="${79 + r * 26}" r="7.5" fill="${(r + c) % 3 === 0 ? "#ffd54d" : (r + c) % 3 === 1 ? "#f4f6ff" : "#e94b55"}"/>`
+            ).join("")
+          ).join("")}`,
+        evades: `
+          <rect x="76" y="65" width="160" height="155" rx="12" fill="#e9edf6" stroke="#3d4968" stroke-width="4"/>
+          <path d="M76 115 H236 M76 165 H236 M130 65 V220 M183 65 V220" stroke="#8e9ab4" stroke-width="4"/>
+          <rect x="141" y="128" width="32" height="26" rx="4" fill="#edb84a" stroke="#805c24" stroke-width="3"/>
+          <path d="M155 128 V113 Q155 100 169 100 Q182 100 182 113 V128" fill="none" stroke="#805c24" stroke-width="5"/>
+          <path d="M91 195 L111 177 L123 194 L109 207Z" fill="#4c9a70"/>
+          <path d="M198 81 L219 100 L202 111 L187 94Z" fill="#df5d58"/>`,
+        tower: `
+          <g stroke="#7a4b2b" stroke-width="3">
+            <rect x="95" y="187" width="125" height="24" rx="3" fill="#d9a15b"/>
+            <rect x="95" y="163" width="125" height="24" rx="3" fill="#f1c57e"/>
+            <rect x="95" y="139" width="125" height="24" rx="3" fill="#d9a15b"/>
+            <rect x="95" y="115" width="125" height="24" rx="3" fill="#f1c57e"/>
+            <rect x="95" y="91" width="125" height="24" rx="3" fill="#d9a15b"/>
+            <rect x="95" y="67" width="125" height="24" rx="3" fill="#f1c57e"/>
+          </g>
+          <path d="M78 82 L92 96 L80 110" fill="none" stroke="#e35b48" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`,
+        mamie: `
+          <circle cx="155" cy="145" r="72" fill="#fff" stroke="#de72ae" stroke-width="5"/>
+          <path d="M100 124 Q91 77 131 78 Q157 48 185 81 Q222 83 210 126 Q191 105 174 104 Q138 116 100 124Z" fill="#e8e8f0" stroke="#8e91a9" stroke-width="4"/>
+          <circle cx="133" cy="139" r="5" fill="#35364c"/>
+          <circle cx="177" cy="139" r="5" fill="#35364c"/>
+          <path d="M138 162 Q155 177 174 160" fill="none" stroke="#ce5688" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="118" cy="155" r="10" fill="#f4a9c6"/>
+          <circle cx="192" cy="155" r="10" fill="#f4a9c6"/>
+          <path d="M117 194 Q155 170 193 194 L205 214 H105Z" fill="#7a61d7"/>`,
+        suite: `
+          ${Array.from({length: 5}, (_, i) => `
+            <g transform="rotate(${(i - 2) * 9} ${105 + i * 28} 145)">
+              <rect x="${78 + i * 28}" y="${88 + (i % 2) * 12}" width="48" height="104" rx="8" fill="${["#f16b65","#f4c94b","#63bd92","#4b91df","#9a77df"][i]}" stroke="#fff" stroke-width="3"/>
+              <circle cx="${102 + i * 28}" cy="${135 + (i % 2) * 12}" r="14" fill="#fff" opacity=".9"/>
+              <circle cx="${102 + i * 28}" cy="${135 + (i % 2) * 12}" r="5" fill="#34364d"/>
+            </g>`).join("")}`,
+        flip: `
+          <g transform="rotate(-10 115 145)">
+            <rect x="72" y="76" width="90" height="137" rx="13" fill="#ffdb4e" stroke="#fff" stroke-width="4"/>
+            <text x="99" y="166" font-size="57" font-weight="1000" fill="#4c3bc1">7</text>
+          </g>
+          <g transform="rotate(11 192 145)">
+            <rect x="154" y="66" width="90" height="137" rx="13" fill="#7258d9" stroke="#fff" stroke-width="4"/>
+            <text x="181" y="153" font-size="57" font-weight="1000" fill="#fff">3</text>
+          </g>
+          <path d="M154 51 L165 34 L176 51 L165 47Z" fill="#e95b7b"/>`,
+        roll: `
+          <g transform="rotate(-10 115 143)">
+            <rect x="75" y="89" width="85" height="85" rx="15" fill="#fff" stroke="#e17a45" stroke-width="4"/>
+            <g fill="#e17a45">
+              <circle cx="99" cy="113" r="7"/><circle cx="136" cy="150" r="7"/>
+              <circle cx="136" cy="113" r="7"/><circle cx="99" cy="150" r="7"/>
+            </g>
+          </g>
+          <g transform="rotate(10 200 150)">
+            <rect x="164" y="105" width="73" height="73" rx="14" fill="#4c8fda" stroke="#fff" stroke-width="4"/>
+            <g fill="#fff">
+              <circle cx="183" cy="124" r="6"/><circle cx="218" cy="124" r="6"/>
+              <circle cx="200" cy="142" r="6"/><circle cx="183" cy="160" r="6"/>
+              <circle cx="218" cy="160" r="6"/>
+            </g>
+          </g>`
+      };
+
+      let retailerBadge = "";
+
+      if (!game.hideRetailerLogo) {
+        retailerBadge = game.retailer === "JouéClub"
+          ? `
+            <g transform="translate(18 18)">
+              <rect width="112" height="40" rx="9" fill="#fff" stroke="#e4e7f0"/>
+              <image href="https://cdn.worldvectorlogo.com/logos/logo-joueclub-2016-blue-.svg"
+                x="9" y="5" width="94" height="30"
+                preserveAspectRatio="xMidYMid meet"/>
+            </g>`
+          : `
+            <g transform="translate(18 18)">
+              <rect width="94" height="40" rx="9" fill="#fff" stroke="#e4e7f0"/>
+              <text x="47" y="26" text-anchor="middle"
+                font-size="18" font-weight="900" fill="#e24a31">Cultura</text>
+            </g>`;
+      }
+
+      return `
+        <svg class="game-art" viewBox="0 0 320 260"
+          xmlns="http://www.w3.org/2000/svg"
+          role="img" aria-label="Illustration du jeu">
+          <rect width="320" height="260" fill="${game.color}"/>
+          <circle cx="280" cy="42" r="53" fill="#fff" opacity=".25"/>
+          <circle cx="36" cy="233" r="54" fill="#fff" opacity=".25"/>
+          <path d="M0 224 Q80 194 160 228 T320 215 V260 H0Z" fill="#fff" opacity=".28"/>
+          ${retailerBadge}
+          ${scenes[game.scene] || ""}
+        </svg>`;
+    }
+
+    function renderCard(game) {
+      return `
+        <article class="game-card"
+          tabindex="0"
+          role="link"
+          aria-label="Voir ${escapeHtml(game.name)}"
+          onclick="openGame('${game.id}')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openGame('${game.id}')}">
+          ${renderIllustration(game)}
+          <div class="game-content">
+            <h3>${escapeHtml(game.name)}</h3>
+            <p>${escapeHtml(game.description)}</p>
             <div class="meta">
-              <small>Joueurs</small>
-              <strong>${echapper(jeu.joueurs)}</strong>
-            </div>
-            <div class="meta">
-              <small>Durée</small>
-              <strong>${echapper(jeu.duree)}</strong>
-            </div>
-            <div class="meta">
-              <small>Âge conseillé</small>
-              <strong>${echapper(jeu.age)}</strong>
-            </div>
-            <div class="meta">
-              <small>Catégorie</small>
-              <strong>${echapper(jeu.categorie)}</strong>
+              <span class="tag">${escapeHtml(game.category)}</span>
+              <span class="tag">${escapeHtml(game.players)}</span>
+              <span class="tag">${escapeHtml(game.age)}</span>
             </div>
           </div>
+        </article>`;
+    }
 
+    function renderCatalogue() {
+      app.innerHTML = `
+        <section class="intro">
+          <h2>Découvrez nos jeux 🎲</h2>
+          <p>Retrouvez les jeux de la ludothèque, consultez leurs règles et découvrez où les trouver.</p>
+        </section>
+
+        <section class="game-grid" id="game-grid" aria-label="Catalogue des jeux">
+          ${games.map(renderCard).join("")}
+        </section>`;
+    }
+
+    function openGame(id) {
+      location.hash = `jeu/${id}`;
+    }
+
+    function renderRules(game) {
+      return `
+        <section class="rules-section">
+          <div class="rules-heading">
+            <div class="rules-icon" aria-hidden="true">📖</div>
+            <h3>Comment jouer ?</h3>
+          </div>
+
+          <p class="rules-intro">
+            Voici les principales étapes pour comprendre le déroulement de la partie.
+          </p>
+
+          <div class="rules-steps">
+            ${game.rules.map((rule, index) => `
+              <div class="rule-step">
+                <div class="rule-number">${index + 1}</div>
+                <p>${escapeHtml(rule)}</p>
+              </div>
+            `).join("")}
+          </div>
+
+          ${game.tip ? `
+            <div class="rules-tip">
+              <strong>💡 Notre conseil</strong>
+              ${escapeHtml(game.tip)}
+            </div>
+          ` : ""}
+        </section>`;
+    }
+
+    function renderDetail(id) {
+      const game = games.find(item => item.id === id);
+
+      if (!game) {
+        location.hash = "catalogue";
+        return;
+      }
+
+      const retailerButton = game.productUrl
+        ? `
           <div class="actions">
-            ${boutonProduit}
-            <button class="bouton-secondaire" id="retour-detail" type="button">← Retour aux jeux</button>
+            <a class="button button-primary"
+              href="${escapeHtml(game.productUrl)}"
+              target="_blank"
+              rel="noopener noreferrer">
+              Voir chez ${escapeHtml(game.retailer)} ↗
+            </a>
+          </div>`
+        : "";
+
+      app.innerHTML = `
+        <button class="back-button" onclick="location.hash='catalogue'">
+          <span aria-hidden="true">←</span>
+          Retour à la ludothèque
+        </button>
+
+        <article class="detail">
+          <div class="detail-top">
+            <div>
+              ${renderIllustration(game).replace(
+                'class="game-art"',
+                'class="detail-art"'
+              )}
+            </div>
+
+            <div class="detail-info">
+              <h2>${escapeHtml(game.name)}</h2>
+
+              <p class="detail-description">
+                ${escapeHtml(game.description)}
+              </p>
+
+              <div class="detail-meta">
+                <span class="tag">${escapeHtml(game.category)}</span>
+                <span class="tag">👥 ${escapeHtml(game.players)}</span>
+                <span class="tag">🎂 ${escapeHtml(game.age)}</span>
+                <span class="tag">⏱️ ${escapeHtml(game.duration)}</span>
+              </div>
+
+              ${retailerButton}
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div class="regles">
-        <h3>Comment jouer ?</h3>
-        <p>${echapper(jeu.regles)}</p>
-      </div>
-    </article>
-  `;
+          ${renderRules(game)}
 
-  document.getElementById("retour-detail").addEventListener("click", retourAccueil);
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
+          <section class="info-section">
+            <h3>ℹ️ Informations sur le jeu</h3>
 
-function retourAccueil() {
-  pageDetail.style.display = "none";
-  accueil.style.display = "block";
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">Catégorie</span>
+                <span class="info-value">${escapeHtml(game.category)}</span>
+              </div>
 
-document.getElementById("retour").addEventListener("click", retourAccueil);
-recherche.addEventListener("input", afficherJeux);
-filtreCategorie.addEventListener("change", afficherJeux);
+              <div class="info-item">
+                <span class="info-label">Nombre de joueurs</span>
+                <span class="info-value">${escapeHtml(game.players)}</span>
+              </div>
 
-afficherJeux();
-</script>
+              <div class="info-item">
+                <span class="info-label">Âge conseillé</span>
+                <span class="info-value">${escapeHtml(game.age)}</span>
+              </div>
+
+              <div class="info-item">
+                <span class="info-label">Durée indicative</span>
+                <span class="info-value">${escapeHtml(game.duration)}</span>
+              </div>
+            </div>
+          </section>
+        </article>`;
+    }
+
+    function renderApp() {
+      const hash = decodeURIComponent(location.hash.slice(1));
+
+      if (hash.startsWith("jeu/")) {
+        renderDetail(hash.slice(4));
+      } else {
+        renderCatalogue();
+      }
+
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+
+    window.openGame = openGame;
+    window.addEventListener("hashchange", renderApp);
+
+    if (!location.hash) {
+      history.replaceState(null, "", "#catalogue");
+    }
+
+    renderApp();
+  </script>
 </body>
 </html>
