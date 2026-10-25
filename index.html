@@ -68,6 +68,7 @@
       background: var(--primary);
       color: white;
       font-size: 25px;
+      flex-shrink: 0;
     }
 
     .brand h1 {
@@ -111,36 +112,6 @@
       line-height: 1.6;
     }
 
-    .toolbar {
-      display: flex;
-      gap: 12px;
-      margin: 22px 0;
-      flex-wrap: wrap;
-    }
-
-    .search {
-      flex: 1;
-      min-width: 200px;
-      padding: 13px 16px;
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      background: #fff;
-      outline: none;
-    }
-
-    .search:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(85, 70, 215, .12);
-    }
-
-    .filter {
-      padding: 12px 14px;
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      background: white;
-      color: var(--text);
-    }
-
     .game-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -160,6 +131,11 @@
     .game-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 13px 34px rgba(35, 39, 70, .14);
+    }
+
+    .game-card:focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 3px;
     }
 
     .game-art {
@@ -200,6 +176,39 @@
       font-weight: 650;
     }
 
+    /* Bouton de retour, placé en dehors de la fiche */
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 22px;
+      padding: 15px 22px;
+      background: #fff;
+      color: var(--primary-dark);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      box-shadow: 0 4px 14px rgba(35, 39, 70, .06);
+      font-size: 17px;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .18s ease, transform .18s ease;
+    }
+
+    .back-button:hover {
+      background: #efedff;
+      transform: translateX(-3px);
+    }
+
+    .back-button:focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 3px;
+    }
+
+    /* Fiche produit */
+
     .detail {
       background: white;
       border: 1px solid var(--border);
@@ -225,19 +234,6 @@
       padding: clamp(22px, 4vw, 38px);
     }
 
-    .back {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 0;
-      padding: 0;
-      background: transparent;
-      color: var(--primary);
-      font-weight: 750;
-      cursor: pointer;
-      margin-bottom: 25px;
-    }
-
     .detail-info h2 {
       font-size: clamp(28px, 4vw, 38px);
       line-height: 1.12;
@@ -257,21 +253,6 @@
       margin-bottom: 24px;
     }
 
-    .section {
-      border-top: 1px solid var(--border);
-      padding: 24px;
-    }
-
-    .section h3 {
-      margin: 0 0 10px;
-    }
-
-    .section p {
-      color: var(--muted);
-      line-height: 1.7;
-      margin: 0;
-    }
-
     .actions {
       display: flex;
       flex-wrap: wrap;
@@ -284,13 +265,14 @@
       justify-content: center;
       gap: 8px;
       border-radius: 12px;
-      padding: 12px 17px;
+      padding: 13px 18px;
       text-decoration: none;
       font-weight: 750;
       border: 1px solid var(--border);
       cursor: pointer;
       background: white;
       color: var(--text);
+      transition: background .18s ease;
     }
 
     .button-primary {
@@ -301,6 +283,130 @@
 
     .button-primary:hover {
       background: var(--primary-dark);
+    }
+
+    /* Section Comment jouer */
+
+    .rules-section {
+      border-top: 1px solid var(--border);
+      padding: clamp(22px, 4vw, 32px);
+      background: #fff;
+    }
+
+    .rules-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .rules-icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      border-radius: 13px;
+      background: #efedff;
+      font-size: 23px;
+    }
+
+    .rules-heading h3 {
+      margin: 0;
+      font-size: 23px;
+    }
+
+    .rules-intro {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .rules-steps {
+      display: grid;
+      gap: 12px;
+    }
+
+    .rule-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 17px;
+      background: #f8f8fc;
+      border: 1px solid #ececf5;
+      border-radius: 15px;
+    }
+
+    .rule-number {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      border-radius: 11px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 850;
+      font-size: 15px;
+    }
+
+    .rule-step p {
+      margin: 2px 0 0;
+      color: #51566b;
+      line-height: 1.65;
+    }
+
+    .rules-tip {
+      margin-top: 18px;
+      padding: 15px 17px;
+      border-radius: 14px;
+      background: #fff7e4;
+      color: #735522;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .rules-tip strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .info-section {
+      border-top: 1px solid var(--border);
+      padding: clamp(22px, 4vw, 32px);
+    }
+
+    .info-section h3 {
+      margin: 0 0 15px;
+      font-size: 21px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .info-item {
+      background: #f8f8fc;
+      border: 1px solid #ececf5;
+      border-radius: 13px;
+      padding: 14px;
+    }
+
+    .info-label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 5px;
+    }
+
+    .info-value {
+      font-size: 15px;
+      font-weight: 750;
     }
 
     .empty {
@@ -360,6 +466,19 @@
       .game-art {
         aspect-ratio: 1.65 / 1;
       }
+
+      .back-button {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .rules-heading h3 {
+        font-size: 21px;
+      }
     }
   </style>
 </head>
@@ -382,7 +501,7 @@
   <main id="app"></main>
 
   <footer>
-    Ma ludothèque à UGC Mondeville · Les jeux présentés sont disponibles dans le catalogue.
+    Ma ludothèque à UGC Mondeville
   </footer>
 
   <script>
@@ -397,7 +516,13 @@
         retailer: "JouéClub",
         productUrl: "https://www.joueclub.fr/",
         description: "Un grand classique où il faut associer les dominos par leurs nombres de points.",
-        rules: "À tour de rôle, chaque joueur pose un domino dont l'une des extrémités correspond à celle de la chaîne. Le premier joueur qui n'a plus de dominos gagne la manche.",
+        rules: [
+          "Mélangez les dominos et distribuez-en un certain nombre à chaque joueur. Les dominos restants forment la pioche.",
+          "À tour de rôle, posez un domino dont l'une des extrémités correspond au nombre de points d'une extrémité de la chaîne.",
+          "Si vous ne pouvez pas jouer, piochez ou passez votre tour selon la variante choisie.",
+          "Le premier joueur qui pose tous ses dominos gagne la manche."
+        ],
+        tip: "Observez les chiffres présents aux deux extrémités de la chaîne pour anticiper vos prochains coups.",
         color: "#f6dfad",
         scene: "dominos"
       },
@@ -411,7 +536,13 @@
         retailer: "JouéClub",
         productUrl: "https://www.joueclub.fr/",
         description: "Un jeu d'adresse où il faut retirer des baguettes sans faire bouger les autres.",
-        rules: "Les baguettes sont déposées en tas. Chaque joueur essaie d'en retirer une à la fois sans déplacer les autres. Le joueur qui obtient le plus de points remporte la partie.",
+        rules: [
+          "Laissez tomber toutes les baguettes en tas sur une surface plane.",
+          "À votre tour, essayez de retirer une baguette sans déplacer les autres.",
+          "Si une autre baguette bouge, votre tour s'arrête et le joueur suivant joue.",
+          "À la fin, comptez les points des baguettes récupérées : le meilleur score gagne."
+        ],
+        tip: "Commencez par les baguettes qui sont isolées et faciles à retirer.",
         color: "#d9f0dc",
         scene: "mikado"
       },
@@ -425,7 +556,13 @@
         retailer: "JouéClub",
         productUrl: "https://www.joueclub.fr/",
         description: "Un jeu de cartes traditionnel pour une grande variété de jeux.",
-        rules: "Le paquet permet de jouer à de nombreux classiques : bataille, pouilleux, réussite et bien d'autres. Les règles dépendent du jeu choisi.",
+        rules: [
+          "Choisissez un jeu auquel vous souhaitez jouer, par exemple la bataille ou le pouilleux.",
+          "Mélangez les cartes puis distribuez-les en suivant les règles du jeu choisi.",
+          "Jouez chacun votre tour en respectant les consignes et les objectifs de la variante.",
+          "Déterminez le gagnant en fonction des règles du jeu sélectionné."
+        ],
+        tip: "Le paquet permet de découvrir de nombreux jeux différents : choisissez les règles en fonction de l'âge et du nombre de joueurs.",
         color: "#ffe0e1",
         scene: "cards"
       },
@@ -439,7 +576,13 @@
         retailer: "JouéClub",
         productUrl: "https://www.joueclub.fr/",
         description: "Débarrassez-vous de vos cartes en associant couleurs et chiffres. Attention aux cartes spéciales !",
-        rules: "À votre tour, jouez une carte de même couleur ou de même valeur que celle au sommet de la pile. Utilisez les cartes spéciales pour compliquer la tâche des adversaires et annoncez UNO lorsqu'il ne vous reste qu'une carte.",
+        rules: [
+          "Distribuez 7 cartes à chaque joueur et placez le reste en pioche. Retournez une carte pour commencer la pile de défausse.",
+          "À votre tour, jouez une carte de la même couleur, du même chiffre ou du même symbole que la carte visible.",
+          "Utilisez les cartes spéciales pour changer la couleur ou obliger les adversaires à piocher. Si vous ne pouvez pas jouer, piochez selon les règles.",
+          "Quand il ne vous reste qu'une carte, annoncez « UNO ! ». Le premier joueur qui n'a plus de cartes gagne la manche."
+        ],
+        tip: "Gardez vos cartes spéciales pour les moments où elles peuvent vraiment changer la partie.",
         color: "#ffe4d0",
         scene: "uno"
       },
@@ -453,7 +596,13 @@
         retailer: "JouéClub",
         productUrl: "https://www.joueclub.fr/",
         description: "Un jeu de devinettes amusant sur le thème de la Pat'Patrouille.",
-        rules: "Un joueur doit deviner l'image qu'il porte en posant des questions auxquelles les autres répondent par oui ou par non. Le but est de trouver la bonne réponse avant la fin du temps imparti.",
+        rules: [
+          "Un joueur place une carte sur son bandeau sans regarder l'image.",
+          "À son tour, il pose des questions auxquelles les autres joueurs répondent par oui ou par non.",
+          "Utilisez les indices pour essayer de découvrir le personnage représenté sur votre carte.",
+          "Le joueur qui devine correctement son personnage remporte la manche, selon la variante choisie."
+        ],
+        tip: "Commencez par des questions générales, puis affinez avec des questions plus précises.",
         color: "#dbeaff",
         scene: "guess"
       },
@@ -467,7 +616,13 @@
         retailer: "JouéClub",
         productUrl: "https://www.joueclub.fr/",
         description: "Alignez quatre jetons de votre couleur avant votre adversaire.",
-        rules: "Les joueurs déposent chacun leur tour un jeton dans la grille. Le premier à aligner quatre jetons horizontalement, verticalement ou en diagonale gagne.",
+        rules: [
+          "Chaque joueur choisit une couleur de jetons.",
+          "À tour de rôle, faites tomber un jeton dans la colonne de votre choix.",
+          "Essayez d'aligner quatre jetons horizontalement, verticalement ou en diagonale.",
+          "Le premier joueur qui réalise un alignement de quatre jetons gagne."
+        ],
+        tip: "Essayez de préparer votre propre alignement tout en bloquant les possibilités de votre adversaire.",
         color: "#dbe8ff",
         scene: "connect"
       },
@@ -481,7 +636,13 @@
         retailer: "JouéClub",
         productUrl: "https://www.joueclub.fr/jeux-de-societe/les-evades-3262190413306.html",
         description: "Préparez votre évasion, récupérez des objets utiles et déjouez les obstacles pour tenter de sortir de prison.",
-        rules: "Les joueurs cherchent à réunir les éléments nécessaires à leur évasion tout en faisant face aux obstacles. Anticipez vos déplacements et surveillez les actions de vos adversaires.",
+        rules: [
+          "Prenez connaissance du matériel et préparez la partie comme indiqué dans la notice.",
+          "À votre tour, effectuez les actions autorisées pour avancer dans votre plan d'évasion et récupérer les objets utiles.",
+          "Adaptez votre stratégie aux obstacles rencontrés et aux actions des autres joueurs.",
+          "Le but est de réussir votre évasion en respectant les conditions de victoire du jeu."
+        ],
+        tip: "Planifiez vos actions et surveillez les opportunités qui peuvent vous faire gagner du temps.",
         color: "#d9e4f5",
         scene: "evades"
       },
@@ -495,7 +656,13 @@
         retailer: "JouéClub",
         productUrl: "https://www.joueclub.fr/contenu/tout-l-univers-de-jeux-de-societe.html",
         description: "Un jeu d'adresse où il faut retirer ou déplacer des pièces sans faire s'écrouler la tour.",
-        rules: "À tour de rôle, retirez une pièce en essayant de garder la tour en équilibre. Plus la partie avance, plus la tour devient instable. Le joueur qui la fait tomber perd la manche.",
+        rules: [
+          "Construisez la tour en empilant les pièces comme indiqué dans la notice.",
+          "À tour de rôle, retirez une pièce autorisée sans faire tomber la structure.",
+          "Placez la pièce retirée selon les règles du jeu, si nécessaire, puis laissez jouer le participant suivant.",
+          "Le joueur qui fait s'écrouler la tour perd la manche."
+        ],
+        tip: "Prenez votre temps et vérifiez la stabilité de la tour avant de retirer une pièce.",
         color: "#ffe6b9",
         scene: "tower"
       },
@@ -509,7 +676,13 @@
         retailer: "Cultura",
         productUrl: "https://www.cultura.com/p-mamie-moule-maki-3770017095135.html",
         description: "Un jeu de mots et de catégories décalées pour des parties pleines de rires.",
-        rules: "Lisez une catégorie et trouvez rapidement une réponse qui correspond à la consigne. Faites preuve d'imagination, de rapidité et d'un bon sens de la répartie.",
+        rules: [
+          "Préparez les cartes et choisissez un joueur qui lira la catégorie ou la consigne.",
+          "Découvrez la catégorie et trouvez une réponse qui correspond à la consigne.",
+          "Répondez rapidement dans le temps imparti, en laissant chacun participer selon les règles.",
+          "Comptez les points ou désignez le gagnant en suivant les conditions de victoire de votre version."
+        ],
+        tip: "Laissez parler votre imagination : les réponses inattendues rendent souvent la partie encore plus drôle.",
         color: "#f9d9ed",
         scene: "mamie"
       },
@@ -523,7 +696,13 @@
         retailer: "Cultura",
         productUrl: "https://www.cultura.com/p-la-suite-infernale-10248242.html",
         description: "Un jeu de cartes où il faut réussir à construire une suite de nombres sans se faire piéger.",
-        rules: "Essayez de compléter votre suite numérique dans le bon ordre. Observez les cartes disponibles et choisissez le bon moment pour jouer afin d'avancer avant les autres.",
+        rules: [
+          "Préparez les cartes en suivant les indications de la notice.",
+          "À votre tour, jouez une carte qui vous permet de progresser dans la suite numérique.",
+          "Observez les cartes disponibles et choisissez le bon moment pour jouer.",
+          "Le gagnant est déterminé selon les objectifs et les conditions de fin de partie de la boîte."
+        ],
+        tip: "Anticipez les prochains nombres et évitez de vous retrouver bloqué.",
         color: "#d8f2e7",
         scene: "suite"
       },
@@ -537,7 +716,13 @@
         retailer: "Cultura",
         productUrl: "https://www.cultura.com/p-flip-7-catch-up-games-10975386.html",
         description: "Un jeu de cartes dynamique où il faut savoir s'arrêter avant de piocher un numéro déjà obtenu.",
-        rules: "Piochez des cartes pour accumuler des points, mais attention aux doublons ! Si vous prenez un numéro que vous avez déjà, vous risquez de perdre les points de votre tour. Saurez-vous vous arrêter à temps ?",
+        rules: [
+          "À votre tour, choisissez de continuer à piocher ou de vous arrêter si les règles le permettent.",
+          "Chaque nouvelle carte numérotée peut augmenter votre score, mais un doublon peut faire perdre les points du tour.",
+          "Décidez si vous prenez le risque de piocher encore ou si vous sécurisez vos points.",
+          "Obtenir sept numéros différents permet de réaliser le fameux Flip 7 et de déclencher le bonus prévu par les règles."
+        ],
+        tip: "Plus vous piochez, plus vous prenez de risques : sachez quand vous arrêter.",
         color: "#dcd7ff",
         scene: "flip"
       },
@@ -551,7 +736,13 @@
         retailer: "Cultura",
         productUrl: "https://www.cultura.com/search?q=Roll%27n%20Bump",
         description: "Un jeu convivial mêlant dés et cartes, dans lequel il faut tenter de réaliser les meilleures combinaisons.",
-        rules: "Lancez les dés, comparez vos résultats et essayez de récupérer les cartes qui vous intéressent. Gérez vos choix pour obtenir les combinaisons les plus avantageuses.",
+        rules: [
+          "Préparez les dés et les cartes en suivant la mise en place de la notice.",
+          "Lancez les dés et observez les résultats obtenus.",
+          "Utilisez vos résultats pour tenter de récupérer les cartes ou les combinaisons les plus intéressantes.",
+          "À la fin de la partie, comparez les résultats selon les règles pour déterminer le gagnant."
+        ],
+        tip: "Évaluez les possibilités à chaque lancer et privilégiez les choix qui servent votre objectif.",
         color: "#ffdfcc",
         scene: "roll"
       }
@@ -573,11 +764,9 @@
     }
 
     /*
-      Illustrations SVG personnalisées.
-      Les images n'affichent volontairement :
-      - aucun nom de jeu ;
-      - aucune écriture « JouéClub » sous le logo.
-      Le logo est présenté séparément dans une pastille.
+      Illustrations personnalisées :
+      - pas de nom de jeu dans l'image ;
+      - pas d'écriture JouéClub sous le logo.
     */
     function renderIllustration(game) {
       const scenes = {
@@ -722,8 +911,7 @@
       return `
         <svg class="game-art" viewBox="0 0 320 260"
           xmlns="http://www.w3.org/2000/svg"
-          role="img" aria-label="Illustration du jeu"
-          xmlns:xlink="http://www.w3.org/1999/xlink">
+          role="img" aria-label="Illustration du jeu">
           <rect width="320" height="260" fill="${game.color}"/>
           <circle cx="280" cy="42" r="53" fill="#fff" opacity=".25"/>
           <circle cx="36" cy="233" r="54" fill="#fff" opacity=".25"/>
@@ -735,7 +923,9 @@
 
     function renderCard(game) {
       return `
-        <article class="game-card" tabindex="0" role="link"
+        <article class="game-card"
+          tabindex="0"
+          role="link"
           aria-label="Voir ${escapeHtml(game.name)}"
           onclick="openGame('${game.id}')"
           onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openGame('${game.id}')}">
@@ -759,66 +949,74 @@
           <p>Retrouvez les jeux de la ludothèque, consultez leurs règles et découvrez où les trouver.</p>
         </section>
 
-        <div class="toolbar">
-          <input class="search" id="search" type="search"
-            placeholder="Rechercher un jeu…" aria-label="Rechercher un jeu">
-          <select class="filter" id="category" aria-label="Filtrer par catégorie">
-            <option value="">Toutes les catégories</option>
-            ${[...new Set(games.map(game => game.category))]
-              .sort()
-              .map(category => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`)
-              .join("")}
-          </select>
-        </div>
-
         <section class="game-grid" id="game-grid" aria-label="Catalogue des jeux">
           ${games.map(renderCard).join("")}
         </section>`;
-
-      const searchInput = document.getElementById("search");
-      const categorySelect = document.getElementById("category");
-
-      function filterGames() {
-        const query = searchInput.value.trim().toLocaleLowerCase("fr");
-        const category = categorySelect.value;
-
-        const filtered = games.filter(game =>
-          game.name.toLocaleLowerCase("fr").includes(query) &&
-          (!category || game.category === category)
-        );
-
-        document.getElementById("game-grid").innerHTML = filtered.length
-          ? filtered.map(renderCard).join("")
-          : `<div class="empty">Aucun jeu ne correspond à votre recherche.</div>`;
-      }
-
-      searchInput.addEventListener("input", filterGames);
-      categorySelect.addEventListener("change", filterGames);
     }
 
     function openGame(id) {
       location.hash = `jeu/${id}`;
     }
 
+    function renderRules(game) {
+      return `
+        <section class="rules-section">
+          <div class="rules-heading">
+            <div class="rules-icon" aria-hidden="true">📖</div>
+            <h3>Comment jouer ?</h3>
+          </div>
+
+          <p class="rules-intro">
+            Voici les principales étapes pour comprendre le déroulement de la partie.
+          </p>
+
+          <div class="rules-steps">
+            ${game.rules.map((rule, index) => `
+              <div class="rule-step">
+                <div class="rule-number">${index + 1}</div>
+                <p>${escapeHtml(rule)}</p>
+              </div>
+            `).join("")}
+          </div>
+
+          ${game.tip ? `
+            <div class="rules-tip">
+              <strong>💡 Notre conseil</strong>
+              ${escapeHtml(game.tip)}
+            </div>
+          ` : ""}
+        </section>`;
+    }
+
     function renderDetail(id) {
       const game = games.find(item => item.id === id);
 
       if (!game) {
-        renderCatalogue();
+        location.hash = "catalogue";
         return;
       }
 
       app.innerHTML = `
+        <button class="back-button" onclick="location.hash='catalogue'">
+          <span aria-hidden="true">←</span>
+          Retour à la ludothèque
+        </button>
+
         <article class="detail">
           <div class="detail-top">
-            <div>${renderIllustration(game).replace('class="game-art"', 'class="detail-art"')}</div>
-            <div class="detail-info">
-              <button class="back" onclick="location.hash='catalogue'">
-                ← Retour à la ludothèque
-              </button>
+            <div>
+              ${renderIllustration(game).replace(
+                'class="game-art"',
+                'class="detail-art"'
+              )}
+            </div>
 
+            <div class="detail-info">
               <h2>${escapeHtml(game.name)}</h2>
-              <p class="detail-description">${escapeHtml(game.description)}</p>
+
+              <p class="detail-description">
+                ${escapeHtml(game.description)}
+              </p>
 
               <div class="detail-meta">
                 <span class="tag">${escapeHtml(game.category)}</span>
@@ -830,30 +1028,45 @@
               <div class="actions">
                 <a class="button button-primary"
                   href="${escapeHtml(game.productUrl)}"
-                  target="_blank" rel="noopener noreferrer">
+                  target="_blank"
+                  rel="noopener noreferrer">
                   Voir chez ${escapeHtml(game.retailer)} ↗
                 </a>
-                <button class="button" onclick="location.hash='catalogue'">
-                  Tous les jeux
-                </button>
               </div>
             </div>
           </div>
 
-          <section class="section">
-            <h3>📖 Comment jouer ?</h3>
-            <p>${escapeHtml(game.rules)}</p>
-          </section>
+          ${renderRules(game)}
 
-          <section class="section">
-            <h3>ℹ️ Informations</h3>
-            <p>
-              <strong>Catégorie :</strong> ${escapeHtml(game.category)}<br>
-              <strong>Nombre de joueurs :</strong> ${escapeHtml(game.players)}<br>
-              <strong>Âge conseillé :</strong> ${escapeHtml(game.age)}<br>
-              <strong>Durée indicative :</strong> ${escapeHtml(game.duration)}<br>
-              <strong>Enseigne :</strong> ${escapeHtml(game.retailer)}
-            </p>
+          <section class="info-section">
+            <h3>ℹ️ Informations sur le jeu</h3>
+
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="info-label">Catégorie</span>
+                <span class="info-value">${escapeHtml(game.category)}</span>
+              </div>
+
+              <div class="info-item">
+                <span class="info-label">Nombre de joueurs</span>
+                <span class="info-value">${escapeHtml(game.players)}</span>
+              </div>
+
+              <div class="info-item">
+                <span class="info-label">Âge conseillé</span>
+                <span class="info-value">${escapeHtml(game.age)}</span>
+              </div>
+
+              <div class="info-item">
+                <span class="info-label">Durée indicative</span>
+                <span class="info-value">${escapeHtml(game.duration)}</span>
+              </div>
+
+              <div class="info-item">
+                <span class="info-label">Enseigne</span>
+                <span class="info-value">${escapeHtml(game.retailer)}</span>
+              </div>
+            </div>
           </section>
         </article>`;
     }
