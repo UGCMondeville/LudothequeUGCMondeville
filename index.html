@@ -18,9 +18,7 @@
       --shadow: 0 8px 28px rgba(35, 39, 70, 0.09);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -29,14 +27,8 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    button,
-    a {
-      font: inherit;
-    }
-
-    a {
-      color: inherit;
-    }
+    button, a { font: inherit; }
+    a { color: inherit; }
 
     .topbar {
       background: #fff;
@@ -71,10 +63,7 @@
       flex-shrink: 0;
     }
 
-    .brand h1 {
-      font-size: 20px;
-      margin: 0;
-    }
+    .brand h1 { font-size: 20px; margin: 0; }
 
     .brand p {
       margin: 4px 0 0;
@@ -97,9 +86,7 @@
       margin: 28px auto 60px;
     }
 
-    .intro {
-      margin-bottom: 24px;
-    }
+    .intro { margin-bottom: 24px; }
 
     .intro h2 {
       margin: 0 0 8px;
@@ -145,9 +132,7 @@
       background: #f0efff;
     }
 
-    .game-content {
-      padding: 17px;
-    }
+    .game-content { padding: 17px; }
 
     .game-content h3 {
       margin: 0 0 8px;
@@ -161,10 +146,10 @@
       line-height: 1.5;
     }
 
-    .meta {
+    .meta, .detail-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 7px;
+      gap: 8px;
     }
 
     .tag {
@@ -175,8 +160,6 @@
       font-size: 12px;
       font-weight: 650;
     }
-
-    /* Bouton de retour, placé en dehors de la fiche */
 
     .back-button {
       display: inline-flex;
@@ -207,8 +190,6 @@
       outline-offset: 3px;
     }
 
-    /* Fiche produit */
-
     .detail {
       background: white;
       border: 1px solid var(--border);
@@ -230,9 +211,7 @@
       background: #f0efff;
     }
 
-    .detail-info {
-      padding: clamp(22px, 4vw, 38px);
-    }
+    .detail-info { padding: clamp(22px, 4vw, 38px); }
 
     .detail-info h2 {
       font-size: clamp(28px, 4vw, 38px);
@@ -246,12 +225,7 @@
       margin-bottom: 22px;
     }
 
-    .detail-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 24px;
-    }
+    .detail-meta { margin-bottom: 24px; }
 
     .actions {
       display: flex;
@@ -281,11 +255,7 @@
       color: white;
     }
 
-    .button-primary:hover {
-      background: var(--primary-dark);
-    }
-
-    /* Section Comment jouer */
+    .button-primary:hover { background: var(--primary-dark); }
 
     .rules-section {
       border-top: 1px solid var(--border);
@@ -322,10 +292,7 @@
       line-height: 1.65;
     }
 
-    .rules-steps {
-      display: grid;
-      gap: 12px;
-    }
+    .rules-steps { display: grid; gap: 12px; }
 
     .rule-step {
       display: flex;
@@ -404,20 +371,7 @@
       margin-bottom: 5px;
     }
 
-    .info-value {
-      font-size: 15px;
-      font-weight: 750;
-    }
-
-    .empty {
-      grid-column: 1 / -1;
-      background: white;
-      border: 1px dashed #c9cadd;
-      border-radius: 18px;
-      padding: 35px;
-      text-align: center;
-      color: var(--muted);
-    }
+    .info-value { font-size: 15px; font-weight: 750; }
 
     footer {
       padding: 25px 16px;
@@ -427,58 +381,21 @@
     }
 
     @media (max-width: 850px) {
-      .game-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .detail-top {
-        grid-template-columns: 1fr;
-      }
-
-      .detail-art {
-        min-height: 0;
-      }
+      .game-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .detail-top { grid-template-columns: 1fr; }
+      .detail-art { min-height: 0; }
     }
 
     @media (max-width: 540px) {
-      .topbar-inner {
-        align-items: flex-start;
-      }
-
-      .brand h1 {
-        font-size: 17px;
-      }
-
-      .brand-icon {
-        width: 42px;
-        height: 42px;
-      }
-
-      .count {
-        font-size: 11px;
-        padding: 8px 10px;
-      }
-
-      .game-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .game-art {
-        aspect-ratio: 1.65 / 1;
-      }
-
-      .back-button {
-        width: 100%;
-        justify-content: flex-start;
-      }
-
-      .info-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .rules-heading h3 {
-        font-size: 21px;
-      }
+      .topbar-inner { align-items: flex-start; }
+      .brand h1 { font-size: 17px; }
+      .brand-icon { width: 42px; height: 42px; }
+      .count { font-size: 11px; padding: 8px 10px; }
+      .game-grid { grid-template-columns: 1fr; }
+      .game-art { aspect-ratio: 1.65 / 1; }
+      .back-button { width: 100%; justify-content: flex-start; }
+      .info-grid { grid-template-columns: 1fr; }
+      .rules-heading h3 { font-size: 21px; }
     }
   </style>
 </head>
@@ -493,16 +410,13 @@
           <p>UGC Mondeville</p>
         </div>
       </div>
-
       <div class="count" id="game-count">12 jeux</div>
     </div>
   </header>
 
   <main id="app"></main>
 
-  <footer>
-    Ma ludothèque à UGC Mondeville
-  </footer>
+  <footer>Ma ludothèque à UGC Mondeville</footer>
 
   <script>
     const games = [
@@ -514,7 +428,7 @@
         age: "Dès 5 ans",
         duration: "15 min",
         retailer: "JouéClub",
-        productUrl: "https://www.joueclub.fr/",
+        productUrl: "https://www.joueclub.fr/jeux-de-societes/jeu-de-dominos-3393143340384.html",
         description: "Un grand classique où il faut associer les dominos par leurs nombres de points.",
         rules: [
           "Mélangez les dominos et distribuez-en un certain nombre à chaque joueur. Les dominos restants forment la pioche.",
@@ -534,7 +448,7 @@
         age: "Dès 5 ans",
         duration: "10 à 20 min",
         retailer: "JouéClub",
-        productUrl: "https://www.joueclub.fr/",
+        productUrl: "https://www.joueclub.fr/jeux-de-societe/mikado-3393143400248.html",
         description: "Un jeu d'adresse où il faut retirer des baguettes sans faire bouger les autres.",
         rules: [
           "Laissez tomber toutes les baguettes en tas sur une surface plane.",
@@ -554,7 +468,7 @@
         age: "Dès 6 ans",
         duration: "Variable",
         retailer: "JouéClub",
-        productUrl: "https://www.joueclub.fr/",
+        productUrl: null,
         description: "Un jeu de cartes traditionnel pour une grande variété de jeux.",
         rules: [
           "Choisissez un jeu auquel vous souhaitez jouer, par exemple la bataille ou le pouilleux.",
@@ -564,7 +478,8 @@
         ],
         tip: "Le paquet permet de découvrir de nombreux jeux différents : choisissez les règles en fonction de l'âge et du nombre de joueurs.",
         color: "#ffe0e1",
-        scene: "cards"
+        scene: "cards",
+        hideRetailerLogo: true
       },
       {
         id: "uno",
@@ -749,9 +664,7 @@
     ];
 
     const app = document.getElementById("app");
-    const gameCount = document.getElementById("game-count");
-
-    gameCount.textContent = `${games.length} jeux`;
+    document.getElementById("game-count").textContent = `${games.length} jeux`;
 
     function escapeHtml(value) {
       return String(value).replace(/[&<>"']/g, char => ({
@@ -763,11 +676,6 @@
       })[char]);
     }
 
-    /*
-      Illustrations personnalisées :
-      - pas de nom de jeu dans l'image ;
-      - pas d'écriture JouéClub sous le logo.
-    */
     function renderIllustration(game) {
       const scenes = {
         dominos: `
@@ -893,20 +801,24 @@
           </g>`
       };
 
-      const retailerBadge = game.retailer === "JouéClub"
-        ? `
-          <g transform="translate(18 18)">
-            <rect width="112" height="40" rx="9" fill="#fff" stroke="#e4e7f0"/>
-            <image href="https://cdn.worldvectorlogo.com/logos/logo-joueclub-2016-blue-.svg"
-              x="9" y="5" width="94" height="30"
-              preserveAspectRatio="xMidYMid meet"/>
-          </g>`
-        : `
-          <g transform="translate(18 18)">
-            <rect width="94" height="40" rx="9" fill="#fff" stroke="#e4e7f0"/>
-            <text x="47" y="26" text-anchor="middle"
-              font-size="18" font-weight="900" fill="#e24a31">Cultura</text>
-          </g>`;
+      let retailerBadge = "";
+
+      if (!game.hideRetailerLogo) {
+        retailerBadge = game.retailer === "JouéClub"
+          ? `
+            <g transform="translate(18 18)">
+              <rect width="112" height="40" rx="9" fill="#fff" stroke="#e4e7f0"/>
+              <image href="https://cdn.worldvectorlogo.com/logos/logo-joueclub-2016-blue-.svg"
+                x="9" y="5" width="94" height="30"
+                preserveAspectRatio="xMidYMid meet"/>
+            </g>`
+          : `
+            <g transform="translate(18 18)">
+              <rect width="94" height="40" rx="9" fill="#fff" stroke="#e4e7f0"/>
+              <text x="47" y="26" text-anchor="middle"
+                font-size="18" font-weight="900" fill="#e24a31">Cultura</text>
+            </g>`;
+      }
 
       return `
         <svg class="game-art" viewBox="0 0 320 260"
@@ -996,6 +908,18 @@
         return;
       }
 
+      const retailerButton = game.productUrl
+        ? `
+          <div class="actions">
+            <a class="button button-primary"
+              href="${escapeHtml(game.productUrl)}"
+              target="_blank"
+              rel="noopener noreferrer">
+              Voir chez ${escapeHtml(game.retailer)} ↗
+            </a>
+          </div>`
+        : "";
+
       app.innerHTML = `
         <button class="back-button" onclick="location.hash='catalogue'">
           <span aria-hidden="true">←</span>
@@ -1025,14 +949,7 @@
                 <span class="tag">⏱️ ${escapeHtml(game.duration)}</span>
               </div>
 
-              <div class="actions">
-                <a class="button button-primary"
-                  href="${escapeHtml(game.productUrl)}"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  Voir chez ${escapeHtml(game.retailer)} ↗
-                </a>
-              </div>
+              ${retailerButton}
             </div>
           </div>
 
@@ -1061,11 +978,6 @@
                 <span class="info-label">Durée indicative</span>
                 <span class="info-value">${escapeHtml(game.duration)}</span>
               </div>
-
-              <div class="info-item">
-                <span class="info-label">Enseigne</span>
-                <span class="info-value">${escapeHtml(game.retailer)}</span>
-              </div>
             </div>
           </section>
         </article>`;
@@ -1084,7 +996,6 @@
     }
 
     window.openGame = openGame;
-
     window.addEventListener("hashchange", renderApp);
 
     if (!location.hash) {
