@@ -7,7 +7,7 @@
 
   <style>
     :root {
-      --bg: #f5f6fa;
+      --bg: #031788;
       --surface: #ffffff;
       --text: #202438;
       --muted: #73788b;
@@ -31,9 +31,9 @@
     a { color: inherit; }
 
     .topbar {
-      background: #fff;
-      border-bottom: 1px solid var(--border);
-      padding: 20px;
+      background: var(--bg);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 24px 20px;
     }
 
     .topbar-inner {
@@ -41,14 +41,17 @@
       margin: auto;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       gap: 16px;
+      text-align: center;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: center;
+      gap: 16px;
+      text-align: center;
     }
 
     .brand-icon {
@@ -63,12 +66,26 @@
       flex-shrink: 0;
     }
 
-    .brand h1 { font-size: 20px; margin: 0; }
+    .brand h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      margin: 0;
+      color: #ffffff;
+    }
 
     .brand p {
-      margin: 4px 0 0;
+      margin: 6px 0 0;
+      font-size: clamp(16px, 2vw, 20px);
+      color: #ffffff;
+    }
+
+    .count {
+      background: #efedff;
+      color: var(--primary-dark);
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-weight: 700;
       font-size: 13px;
-      color: var(--muted);
+      white-space: nowrap;
     }
 
     main {
@@ -380,6 +397,7 @@
       .topbar-inner { align-items: flex-start; }
       .brand h1 { font-size: 17px; }
       .brand-icon { width: 42px; height: 42px; }
+      .count { font-size: 11px; padding: 8px 10px; }
       .game-grid { grid-template-columns: 1fr; }
       .game-art { aspect-ratio: 1.65 / 1; }
       .back-button { width: 100%; justify-content: flex-start; }
@@ -529,7 +547,7 @@
         color: "#dbe8ff",
         scene: "connect"
       },
-      {
+            {
         id: "les-evades",
         name: "Les Évadés",
         category: "Stratégie",
@@ -756,7 +774,7 @@
         suite: `
           ${Array.from({length: 5}, (_, i) => `
             <g transform="rotate(${(i - 2) * 9} ${105 + i * 28} 145)">
-              <rect x="${78 + i * 28}" y="${88 + (i % 2) * 12}" width="48" height="104" rx="8" fill="${["#f16b65", "#f4c94b", "#63bd92", "#4b91df", "#9a77df"][i]}" stroke="#fff" stroke-width="3"/>
+              <rect x="${78 + i * 28}" y="${88 + (i % 2) * 12}" width="48" height="104" rx="8" fill="${["#f16b65","#f4c94b","#63bd92","#4b91df","#9a77df"][i]}" stroke="#fff" stroke-width="3"/>
               <circle cx="${102 + i * 28}" cy="${135 + (i % 2) * 12}" r="14" fill="#fff" opacity=".9"/>
               <circle cx="${102 + i * 28}" cy="${135 + (i % 2) * 12}" r="5" fill="#34364d"/>
             </g>`).join("")}`,
@@ -819,8 +837,7 @@
           ${scenes[game.scene] || ""}
         </svg>`;
     }
-
-    function renderCard(game) {
+        function renderCard(game) {
       return `
         <article class="game-card"
           tabindex="0"
@@ -984,7 +1001,13 @@
 
     window.openGame = openGame;
     window.addEventListener("hashchange", renderApp);
+
+    if (!location.hash) {
+      history.replaceState(null, "", "#catalogue");
+    }
+
     renderApp();
   </script>
 </body>
 </html>
+    
