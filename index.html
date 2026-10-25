@@ -2,933 +2,756 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ma Ludothèque UGC Mondeville</title>
-
-  <style>
-    :root {
-      --blue: #031788;
-      --white: #ffffff;
-      --ink: #172033;
-      --muted: #65708a;
-      --border: #e0e5ef;
-      --accent: #f3c842;
-      --button: #1237b5;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--blue);
-      color: var(--white);
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
-    button,
-    a {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .site-header {
-      width: 100%;
-      padding: 36px 20px 28px;
-      text-align: center;
-      color: var(--white);
-    }
-
-    .site-header h1 {
-      width: 100%;
-      margin: 0 auto 12px;
-      text-align: center;
-      font-size: clamp(2.2rem, 5.5vw, 3.8rem);
-      font-weight: 900;
-      line-height: 1.12;
-      letter-spacing: -1.2px;
-    }
-
-    .site-header p {
-      max-width: 650px;
-      margin: 0 auto;
-      font-size: 1.05rem;
-      line-height: 1.6;
-      color: #e1e7ff;
-    }
-
-    .header-decoration {
-      display: flex;
-      justify-content: center;
-      gap: 9px;
-      margin-top: 18px;
-    }
-
-    .header-decoration span {
-      display: block;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--accent);
-    }
-
-    .header-decoration span:nth-child(2) {
-      background: #6ed8ff;
-    }
-
-    .header-decoration span:nth-child(3) {
-      background: #ff91b8;
-    }
-
-    main {
-      width: min(1200px, calc(100% - 32px));
-      margin: 0 auto;
-      padding-bottom: 50px;
-    }
-
-    .intro-panel {
-      margin: 0 0 24px;
-      padding: 22px;
-      border-radius: 18px;
-      background: var(--white);
-      color: var(--ink);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.13);
-    }
-
-    .intro-panel h2 {
-      margin: 0 0 8px;
-      font-size: 1.35rem;
-    }
-
-    .intro-panel p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-
-    .search-box {
-      flex: 1 1 250px;
-    }
-
-    .search-box input,
-    .category-filter {
-      width: 100%;
-      min-height: 48px;
-      padding: 12px 15px;
-      border: 1px solid #d8def0;
-      border-radius: 12px;
-      outline: none;
-      background: var(--white);
-      color: var(--ink);
-    }
-
-    .search-box input:focus,
-    .category-filter:focus {
-      border-color: #86a0ff;
-      box-shadow: 0 0 0 3px rgba(170, 190, 255, 0.28);
-    }
-
-    .category-filter {
-      flex: 0 1 220px;
-      cursor: pointer;
-    }
-
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 20px;
-    }
-
-    .game-card {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 18px;
-      background: var(--white);
-      color: var(--ink);
-      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
-    }
-
-    .game-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 13px 28px rgba(0, 0, 0, 0.23);
-    }
-
-    .game-art {
-      position: relative;
-      display: flex;
-      min-height: 175px;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      padding: 20px;
-      background: #edf1ff;
-    }
-
-    .game-art svg {
-      display: block;
-      width: 100%;
-      max-width: 230px;
-      height: 145px;
-    }
-
-    .game-art .art-emoji {
-      font-size: 5rem;
-      line-height: 1;
-      filter: drop-shadow(0 7px 4px rgba(0, 0, 0, 0.1));
-    }
-
-    .game-card-content {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      padding: 17px;
-    }
-
-    .category-tag {
-      align-self: flex-start;
-      margin-bottom: 9px;
-      padding: 5px 9px;
-      border-radius: 999px;
-      background: #eaf0ff;
-      color: #1738a6;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.25px;
-      text-transform: uppercase;
-    }
-
-    .game-card h3 {
-      margin: 0 0 8px;
-      font-size: 1.13rem;
-      line-height: 1.35;
-    }
-
-    .game-card p {
-      flex: 1;
-      margin: 0 0 16px;
-      color: var(--muted);
-      font-size: 0.91rem;
-      line-height: 1.5;
-    }
-
-    .primary-button,
-    .secondary-button,
-    .back-button {
-      display: inline-flex;
-      min-height: 43px;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 11px 15px;
-      border: 0;
-      border-radius: 10px;
-      font-weight: 800;
-      text-align: center;
-      text-decoration: none;
-      cursor: pointer;
-      transition: filter 0.15s ease, transform 0.15s ease;
-    }
-
-    .primary-button {
-      background: var(--button);
-      color: var(--white);
-    }
-
-    .secondary-button {
-      border: 1px solid #dce3f4;
-      background: #f4f6fc;
-      color: var(--ink);
-    }
-
-    .back-button {
-      margin-bottom: 20px;
-      background: var(--white);
-      color: var(--blue);
-    }
-
-    .primary-button:hover,
-    .secondary-button:hover,
-    .back-button:hover {
-      filter: brightness(1.06);
-      transform: translateY(-1px);
-    }
-
-    .game-card .primary-button {
-      width: 100%;
-      margin-top: auto;
-    }
-
-    .empty-state {
-      grid-column: 1 / -1;
-      padding: 45px 20px;
-      border-radius: 18px;
-      background: var(--white);
-      color: var(--ink);
-      text-align: center;
-    }
-
-    .empty-state h3 {
-      margin-top: 0;
-    }
-
-    .empty-state p {
-      color: var(--muted);
-    }
-
-    .detail-page {
-      display: none;
-    }
-
-    .detail-panel {
-      overflow: hidden;
-      border-radius: 20px;
-      background: var(--white);
-      color: var(--ink);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
-    }
-
-    .detail-hero {
-      display: grid;
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-      gap: 28px;
-      align-items: center;
-      padding: 30px;
-      background: #f0f3ff;
-    }
-
-    .detail-art {
-      display: flex;
-      min-height: 260px;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      border-radius: 16px;
-      background: var(--white);
-    }
-
-    .detail-art svg {
-      display: block;
-      width: 100%;
-      max-width: 340px;
-      height: 230px;
-    }
-
-    .detail-art .art-emoji {
-      font-size: 7rem;
-    }
-
-    .detail-copy h2 {
-      margin: 0 0 12px;
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      line-height: 1.15;
-    }
-
-    .detail-copy > p {
-      color: #536078;
-      line-height: 1.7;
-    }
-
-    .detail-meta {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin: 22px 0;
-    }
-
-    .meta-item {
-      padding: 14px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: var(--white);
-    }
-
-    .meta-item .meta-label {
-      display: block;
-      margin-bottom: 5px;
-      color: var(--muted);
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .meta-item strong {
-      font-size: 1rem;
-    }
-
-    .detail-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .detail-body {
-      padding: 28px 30px 32px;
-    }
-
-    .detail-body h3 {
-      margin: 0 0 12px;
-      font-size: 1.25rem;
-    }
-
-    .detail-body p {
-      color: #536078;
-      line-height: 1.7;
-    }
-
-    .detail-body ul {
-      padding-left: 22px;
-      color: #536078;
-      line-height: 1.9;
-    }
-
-    .site-footer {
-      padding: 20px 15px 30px;
-      color: #dce4ff;
-      font-size: 0.85rem;
-      text-align: center;
-    }
-
-    @media (max-width: 1000px) {
-      .games-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 720px) {
-      .site-header {
-        padding: 30px 16px 23px;
-      }
-
-      .site-header h1 {
-        letter-spacing: -0.6px;
-      }
-
-      main {
-        width: min(100% - 24px, 560px);
-      }
-
-      .games-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .game-art {
-        min-height: 135px;
-        padding: 12px;
-      }
-
-      .game-art svg {
-        height: 115px;
-      }
-
-      .game-art .art-emoji {
-        font-size: 3.8rem;
-      }
-
-      .game-card-content {
-        padding: 13px;
-      }
-
-      .game-card h3 {
-        font-size: 1rem;
-      }
-
-      .game-card p {
-        font-size: 0.85rem;
-      }
-
-      .detail-hero {
-        grid-template-columns: 1fr;
-        padding: 18px;
-      }
-
-      .detail-art {
-        min-height: 210px;
-      }
-
-      .detail-art svg {
-        height: 185px;
-      }
-
-      .detail-body {
-        padding: 22px 18px;
-      }
-
-      .detail-meta {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .intro-panel {
-        padding: 18px;
-      }
-    }
-
-    @media (max-width: 390px) {
-      .games-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .game-art {
-        min-height: 165px;
-      }
-
-      .game-art svg {
-        height: 135px;
-      }
-
-      .game-card-content {
-        padding: 17px;
-      }
-
-      .detail-meta {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-        transition: none !important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ma Ludothèque UGC Mondeville</title>
+
+<style>
+:root {
+  --fond: #031788;
+  --texte: #ffffff;
+  --carte: #ffffff;
+  --texte-carte: #20243a;
+  --accent: #f3c842;
+  --bouton: #1739a8;
+  --bordure: #e0e3ec;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--fond);
+  color: var(--texte);
+}
+
+header {
+  padding: 28px 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0 auto 12px;
+  text-align: center;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+header p {
+  margin: 0 auto;
+  color: #e2e7ff;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+main {
+  width: min(1200px, calc(100% - 32px));
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.intro {
+  padding: 20px;
+  margin-bottom: 22px;
+  border-radius: 12px;
+  background: var(--carte);
+  color: var(--texte-carte);
+}
+
+.intro h2 {
+  margin: 0 0 8px;
+}
+
+.intro p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.filtres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.filtres input,
+.filtres select {
+  min-height: 44px;
+  padding: 10px 13px;
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+  background: #fff;
+  color: #20243a;
+  font: inherit;
+}
+
+.filtres input {
+  flex: 1 1 240px;
+}
+
+.filtres select {
+  flex: 0 1 220px;
+}
+
+.jeux {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.jeu {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--bordure);
+  border-radius: 12px;
+  background: var(--carte);
+  color: var(--texte-carte);
+}
+
+.illustration {
+  height: 165px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  font-size: 4.5rem;
+  background: #edf0fa;
+}
+
+.illustration svg {
+  max-width: 100%;
+  height: 140px;
+}
+
+.contenu-jeu {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 16px;
+}
+
+.categorie {
+  align-self: flex-start;
+  display: inline-block;
+  margin-bottom: 9px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: #e9edff;
+  color: #1739a8;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.jeu h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+
+.jeu p {
+  flex: 1;
+  margin: 0 0 15px;
+  color: #60677b;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+button,
+.bouton {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--bouton);
+  color: #fff;
+  font: inherit;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+button:hover,
+.bouton:hover {
+  filter: brightness(1.12);
+}
+
+.jeu button {
+  width: 100%;
+  margin-top: auto;
+}
+
+.page-detail {
+  display: none;
+}
+
+.retour {
+  margin-bottom: 18px;
+  background: #fff;
+  color: var(--fond);
+}
+
+.detail-carte {
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--texte-carte);
+}
+
+.detail-haut {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 25px;
+  align-items: center;
+  padding: 25px;
+  background: #edf0fa;
+}
+
+.detail-illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 7rem;
+}
+
+.detail-illustration svg {
+  max-width: 100%;
+  height: 220px;
+}
+
+.detail-infos h2 {
+  margin: 8px 0 12px;
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+}
+
+.detail-infos p {
+  line-height: 1.7;
+  color: #505970;
+}
+
+.metadonnees {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.meta {
+  padding: 13px;
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.meta small {
+  display: block;
+  margin-bottom: 5px;
+  color: #697188;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.bouton-secondaire {
+  background: #edf0fa;
+  color: #20243a;
+}
+
+.regles {
+  padding: 25px;
+}
+
+.regles h3 {
+  margin-top: 0;
+}
+
+.regles p {
+  line-height: 1.7;
+  color: #505970;
+}
+
+.vide {
+  grid-column: 1 / -1;
+  padding: 30px;
+  border-radius: 12px;
+  background: #fff;
+  color: #20243a;
+  text-align: center;
+}
+
+footer {
+  padding: 22px 15px;
+  color: #e2e7ff;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 1000px) {
+  .jeux {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  header {
+    padding: 24px 14px;
+  }
+
+  .jeux {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  main {
+    width: calc(100% - 24px);
+  }
+
+  .illustration {
+    height: 135px;
+    font-size: 3.5rem;
+  }
+
+  .illustration svg {
+    height: 115px;
+  }
+
+  .contenu-jeu {
+    padding: 12px;
+  }
+
+  .jeu h3 {
+    font-size: 1rem;
+  }
+
+  .detail-haut {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .detail-illustration {
+    min-height: 190px;
+  }
+
+  .detail-illustration svg {
+    height: 175px;
+  }
+
+  .regles {
+    padding: 20px 16px;
+  }
+}
+
+@media (max-width: 390px) {
+  .jeux {
+    grid-template-columns: 1fr;
+  }
+
+  .illustration {
+    height: 160px;
+  }
+
+  .illustration svg {
+    height: 140px;
+  }
+
+  .metadonnees {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
 
 <body>
-  <header class="site-header">
-    <h1>Ma Ludothèque UGC Mondeville</h1>
-    <p>Découvrez les jeux disponibles et trouvez votre prochain jeu préféré !</p>
-    <div class="header-decoration" aria-hidden="true">
-      <span></span>
-      <span></span>
-      <span></span>
+
+<header>
+  <h1>Ma Ludothèque UGC Mondeville</h1>
+  <p>Découvrez les jeux disponibles et trouvez votre prochain jeu préféré !</p>
+</header>
+
+<main>
+  <section id="accueil">
+    <div class="intro">
+      <h2>Bienvenue dans notre ludothèque !</h2>
+      <p>Parcourez les jeux, découvrez leurs règles et consultez les informations de chaque jeu.</p>
     </div>
-  </header>
 
-  <main>
-    <section id="home-page">
-      <div class="intro-panel">
-        <h2>Bienvenue dans notre ludothèque !</h2>
-        <p>
-          Jeux de cartes, jeux d'ambiance et grands classiques :
-          parcourez notre sélection et consultez les détails de chaque jeu.
-        </p>
+    <div class="filtres">
+      <input id="recherche" type="search" placeholder="Rechercher un jeu..." aria-label="Rechercher un jeu">
+      <select id="filtre-categorie" aria-label="Filtrer par catégorie">
+        <option value="Toutes">Toutes les catégories</option>
+        <option value="Cartes">Cartes</option>
+        <option value="Ambiance">Ambiance</option>
+        <option value="Adresse">Adresse</option>
+        <option value="Réflexion">Réflexion</option>
+        <option value="Dés">Dés</option>
+      </select>
+    </div>
+
+    <div id="liste-jeux" class="jeux"></div>
+  </section>
+
+  <section id="page-detail" class="page-detail">
+    <button id="retour" class="retour" type="button">← Retour à la ludothèque</button>
+    <div id="detail"></div>
+  </section>
+</main>
+
+<footer>Ma Ludothèque UGC Mondeville</footer>
+
+<script>
+const jeux = [
+  {
+    id: "dominos",
+    nom: "Dominos",
+    categorie: "Réflexion",
+    joueurs: "2 à 4 joueurs",
+    duree: "15 à 30 min",
+    age: "Dès 6 ans",
+    emoji: "🁣",
+    couleur: "#f8e5b3",
+    description: "Un grand classique où il faut associer les dominos en faisant correspondre les mêmes nombres.",
+    regles: "À tour de rôle, posez un domino dont l'une des extrémités correspond à une extrémité libre de la chaîne. Le premier joueur qui n'a plus de dominos gagne la manche.",
+    lien: "https://www.joueclub.fr/jeux-de-societes/jeu-de-dominos-3393143340384.html"
+  },
+  {
+    id: "mikado",
+    nom: "Mikado",
+    categorie: "Adresse",
+    joueurs: "2 joueurs ou plus",
+    duree: "10 à 20 min",
+    age: "Dès 5 ans",
+    emoji: "🥢",
+    couleur: "#f9e6c9",
+    description: "Un jeu d'adresse et de patience : retirez les baguettes sans faire bouger les autres.",
+    regles: "Chaque joueur retire délicatement une baguette sans déplacer les autres. Le joueur qui obtient le plus de points gagne.",
+    lien: "https://www.joueclub.fr/jeux-de-societe/mikado-3393143400248.html"
+  },
+  {
+    id: "cartes-54",
+    nom: "Jeu de 54 cartes",
+    categorie: "Cartes",
+    joueurs: "2 joueurs ou plus",
+    duree: "Variable",
+    age: "Dès 6 ans",
+    emoji: "🂡",
+    couleur: "#e4eaff",
+    description: "Un jeu de cartes classique pour jouer à de nombreux jeux : bataille, rami et bien d'autres.",
+    regles: "Choisissez un jeu adapté au nombre de joueurs, distribuez les cartes selon ses règles et lancez la partie.",
+    lien: null,
+    illustrationCartes: true
+  },
+  {
+    id: "uno",
+    nom: "UNO",
+    categorie: "Cartes",
+    joueurs: "2 à 10 joueurs",
+    duree: "15 à 30 min",
+    age: "Dès 7 ans",
+    emoji: "🃏",
+    couleur: "#ffe4e4",
+    description: "Débarrassez-vous de toutes vos cartes en associant couleurs et chiffres. Attention aux cartes spéciales !",
+    regles: "Jouez une carte de la même couleur, du même chiffre ou du même symbole que celle au sommet de la pile. Annoncez UNO lorsqu'il vous reste une seule carte.",
+    lien: "https://www.joueclub.fr/jeux-de-societe/uno-classique-jeu-de-cartes-0746775036744.html"
+  },
+  {
+    id: "devine-tete",
+    nom: "La Pat'Patrouille - Devine Tête",
+    categorie: "Ambiance",
+    joueurs: "2 joueurs ou plus",
+    duree: "15 min",
+    age: "Dès 4 ans",
+    emoji: "🐾",
+    couleur: "#e3f2ff",
+    description: "Un jeu de devinettes amusant dans l'univers de la Pat'Patrouille.",
+    regles: "Un joueur porte une carte sans la regarder. Il pose des questions auxquelles les autres répondent par oui ou non pour deviner l'image.",
+    lien: "https://www.joueclub.fr/jeux-de-societe/la-pat-patrouille-devine-tete-0681147032491.html"
+  },
+  {
+    id: "puissance-4",
+    nom: "Puissance 4",
+    categorie: "Réflexion",
+    joueurs: "2 joueurs",
+    duree: "10 à 20 min",
+    age: "Dès 6 ans",
+    emoji: "🔴",
+    couleur: "#e3edff",
+    description: "Alignez quatre jetons de votre couleur avant votre adversaire.",
+    regles: "À tour de rôle, faites tomber un jeton dans une colonne. Le premier joueur à aligner quatre jetons horizontalement, verticalement ou en diagonale remporte la partie.",
+    lien: "https://www.joueclub.fr/jeux-de-societes/puissance-4-5010993697601.html"
+  },
+  {
+    id: "les-evades",
+    nom: "Les Évadés",
+    categorie: "Ambiance",
+    joueurs: "Selon la version",
+    duree: "Variable",
+    age: "Selon la version",
+    emoji: "🔐",
+    couleur: "#e8e6ff",
+    description: "Un jeu à partager en groupe, où stratégie et observation peuvent faire la différence.",
+    regles: "Consultez les règles de votre boîte pour préparer la partie, définir les objectifs et déterminer le vainqueur.",
+    lien: null
+  },
+  {
+    id: "tour-infernale",
+    nom: "La Tour Infernale",
+    categorie: "Adresse",
+    joueurs: "2 joueurs ou plus",
+    duree: "10 à 20 min",
+    age: "Dès 6 ans",
+    emoji: "🗼",
+    couleur: "#fff0d9",
+    description: "Retirez les pièces de la tour et replacez-les au sommet sans faire s'écrouler la construction.",
+    regles: "Chaque joueur retire une pièce puis la place au sommet. Celui qui fait tomber la tour perd la partie.",
+    lien: "https://www.joueclub.fr/jeux-de-societe/la-tour-infernale-3393143395889.html"
+  },
+  {
+    id: "mamie-moule-maki",
+    nom: "Mamie Moule Maki",
+    categorie: "Ambiance",
+    joueurs: "3 joueurs ou plus",
+    duree: "20 à 30 min",
+    age: "Selon la version",
+    emoji: "💬",
+    couleur: "#ffe6f1",
+    description: "Un jeu de mots et de créativité qui met l'imagination des joueurs à l'épreuve.",
+    regles: "Suivez la consigne de la manche et trouvez des réponses originales ou amusantes.",
+    lien: null
+  },
+  {
+    id: "suite-infernale",
+    nom: "La Suite Infernale",
+    categorie: "Cartes",
+    joueurs: "Selon la version",
+    duree: "15 à 30 min",
+    age: "Selon la version",
+    emoji: "🎴",
+    couleur: "#e2f8ed",
+    description: "Un jeu de cartes rythmé qui demande de l'attention et de la rapidité.",
+    regles: "Suivez les consignes indiquées dans votre boîte pour enchaîner les cartes et tenter de gagner.",
+    lien: null
+  },
+  {
+    id: "flip-7",
+    nom: "Flip 7",
+    categorie: "Cartes",
+    joueurs: "3 joueurs ou plus",
+    duree: "20 min",
+    age: "Dès 8 ans",
+    emoji: "🎯",
+    couleur: "#fff0c9",
+    description: "Un jeu de cartes où il faut savoir prendre des risques ou s'arrêter à temps.",
+    regles: "Révélez des cartes et accumulez des points, mais attention à ne pas révéler deux fois le même numéro.",
+    lien: null
+  },
+  {
+    id: "roll-n-bump",
+    nom: "Roll'n Bump",
+    categorie: "Dés",
+    joueurs: "2 à 5 joueurs",
+    duree: "20 à 30 min",
+    age: "Dès 8 ans",
+    emoji: "🎲",
+    couleur: "#e7edff",
+    description: "Lancez les dés, réalisez les combinaisons recherchées et tentez de récupérer les meilleures cartes.",
+    regles: "Lancez vos dés pour réaliser les combinaisons permettant de récupérer des cartes. Choisissez les bonnes prises de risque pour marquer un maximum de points.",
+    lien: "https://www.cultura.com/p-roll-n-bump-gigamic-10827705.html"
+  }
+];
+
+const accueil = document.getElementById("accueil");
+const pageDetail = document.getElementById("page-detail");
+const listeJeux = document.getElementById("liste-jeux");
+const detail = document.getElementById("detail");
+const recherche = document.getElementById("recherche");
+const filtreCategorie = document.getElementById("filtre-categorie");
+
+function echapper(texte) {
+  return String(texte).replace(/[&<>"']/g, caractere => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[caractere]);
+}
+
+function illustration(jeu, grande = false) {
+  if (jeu.illustrationCartes) {
+    return `
+      <svg viewBox="0 0 260 170" role="img" aria-label="Deux cartes à jouer">
+        <g transform="translate(48 16) rotate(-13 55 70)">
+          <rect x="7" y="5" width="100" height="145" rx="9" fill="#fff" stroke="#d8dff0" stroke-width="2"/>
+          <text x="20" y="31" font-size="22" font-weight="bold" fill="#d62f45">A</text>
+          <text x="20" y="52" font-size="20" fill="#d62f45">♥</text>
+          <text x="57" y="95" font-size="51" text-anchor="middle" fill="#d62f45">♥</text>
+          <text x="92" y="134" font-size="22" font-weight="bold" text-anchor="end" fill="#d62f45">A</text>
+        </g>
+        <g transform="translate(111 15) rotate(12 55 70)">
+          <rect x="7" y="5" width="100" height="145" rx="9" fill="#fff" stroke="#d8dff0" stroke-width="2"/>
+          <text x="20" y="31" font-size="22" font-weight="bold" fill="#18244d">K</text>
+          <text x="20" y="52" font-size="20" fill="#18244d">♠</text>
+          <text x="57" y="95" font-size="51" text-anchor="middle" fill="#18244d">♠</text>
+          <text x="92" y="134" font-size="22" font-weight="bold" text-anchor="end" fill="#18244d">K</text>
+        </g>
+      </svg>`;
+  }
+
+  if (jeu.id === "uno") {
+    return `
+      <svg viewBox="0 0 260 170" role="img" aria-label="Cartes UNO colorées">
+        <g transform="translate(35 20) rotate(-14 55 65)">
+          <rect x="8" y="5" width="86" height="130" rx="13" fill="#ed2939" stroke="#fff" stroke-width="4"/>
+          <ellipse cx="51" cy="70" rx="31" ry="45" fill="#fff" transform="rotate(-25 51 70)"/>
+          <text x="51" y="83" font-size="35" font-weight="900" text-anchor="middle" fill="#ed2939">U</text>
+        </g>
+        <g transform="translate(90 10) rotate(8 55 65)">
+          <rect x="8" y="5" width="86" height="130" rx="13" fill="#ffd43b" stroke="#fff" stroke-width="4"/>
+          <ellipse cx="51" cy="70" rx="31" ry="45" fill="#fff" transform="rotate(-25 51 70)"/>
+          <text x="51" y="83" font-size="35" font-weight="900" text-anchor="middle" fill="#172033">N</text>
+        </g>
+        <g transform="translate(145 22) rotate(17 45 60)">
+          <rect x="8" y="5" width="75" height="115" rx="12" fill="#1778dd" stroke="#fff" stroke-width="4"/>
+          <ellipse cx="45" cy="62" rx="27" ry="39" fill="#fff" transform="rotate(-25 45 62)"/>
+          <text x="45" y="75" font-size="31" font-weight="900" text-anchor="middle" fill="#1778dd">O</text>
+        </g>
+      </svg>`;
+  }
+
+  return `<span aria-hidden="true">${echapper(jeu.emoji)}</span>`;
+}
+
+function afficherJeux() {
+  const terme = recherche.value.trim().toLocaleLowerCase("fr");
+  const categorie = filtreCategorie.value;
+
+  const resultats = jeux.filter(jeu => {
+    const correspondTexte =
+      jeu.nom.toLocaleLowerCase("fr").includes(terme) ||
+      jeu.description.toLocaleLowerCase("fr").includes(terme) ||
+      jeu.categorie.toLocaleLowerCase("fr").includes(terme);
+
+    const correspondCategorie =
+      categorie === "Toutes" || jeu.categorie === categorie;
+
+    return correspondTexte && correspondCategorie;
+  });
+
+  if (!resultats.length) {
+    listeJeux.innerHTML = `
+      <div class="vide">
+        <h3>Aucun jeu trouvé</h3>
+        <p>Essaie un autre nom ou une autre catégorie.</p>
+      </div>`;
+    return;
+  }
+
+  listeJeux.innerHTML = resultats.map(jeu => `
+    <article class="jeu">
+      <div class="illustration" style="background:${jeu.couleur}">
+        ${illustration(jeu)}
       </div>
-
-      <div class="toolbar">
-        <label class="search-box">
-          <input
-            id="search-input"
-            type="search"
-            placeholder="Rechercher un jeu..."
-            aria-label="Rechercher un jeu"
-          >
-        </label>
-
-        <select
-          id="category-filter"
-          class="category-filter"
-          aria-label="Filtrer par catégorie"
-        >
-          <option value="all">Toutes les catégories</option>
-          <option value="Cartes">Jeux de cartes</option>
-          <option value="Ambiance">Jeux d'ambiance</option>
-          <option value="Adresse">Jeux d'adresse</option>
-          <option value="Réflexion">Jeux de réflexion</option>
-          <option value="Dés">Jeux de dés</option>
-        </select>
+      <div class="contenu-jeu">
+        <span class="categorie">${echapper(jeu.categorie)}</span>
+        <h3>${echapper(jeu.nom)}</h3>
+        <p>${echapper(jeu.description)}</p>
+        <button type="button" data-id="${echapper(jeu.id)}">Découvrir le jeu →</button>
       </div>
+    </article>
+  `).join("");
 
-      <section id="games-grid" class="games-grid" aria-label="Liste des jeux"></section>
-    </section>
+  listeJeux.querySelectorAll("[data-id]").forEach(bouton => {
+    bouton.addEventListener("click", () => ouvrirJeu(bouton.dataset.id));
+  });
+}
 
-    <section id="detail-page" class="detail-page" aria-live="polite">
-      <button id="back-button" class="back-button" type="button">
-        ← Retour à la ludothèque
-      </button>
-      <div id="detail-content"></div>
-    </section>
-  </main>
+function ouvrirJeu(id) {
+  const jeu = jeux.find(element => element.id === id);
+  if (!jeu) return;
 
-  <footer class="site-footer">
-    Ma Ludothèque UGC Mondeville
-  </footer>
+  accueil.style.display = "none";
+  pageDetail.style.display = "block";
 
-  <script>
-    const games = [
-      {
-        id: "dominos",
-        name: "Dominos",
-        category: "Réflexion",
-        players: "2 à 4 joueurs",
-        duration: "15 à 30 min",
-        age: "Dès 6 ans",
-        description: "Un grand classique où il faut associer les dominos en faisant correspondre les mêmes nombres.",
-        rules: "À tour de rôle, posez un domino dont l'une des extrémités correspond à une extrémité libre de la chaîne. Le premier joueur qui n'a plus de dominos gagne la manche.",
-        emoji: "🁣",
-        color: "#f8e5b3",
-        productUrl: "https://www.joueclub.fr/jeux-de-societes/jeu-de-dominos-3393143340384.html"
-      },
-      {
-        id: "mikado",
-        name: "Mikado",
-        category: "Adresse",
-        players: "2 joueurs ou plus",
-        duration: "10 à 20 min",
-        age: "Dès 5 ans",
-        description: "Un jeu d'adresse et de patience : retirez les baguettes sans faire bouger les autres.",
-        rules: "Les baguettes sont déposées en tas. Chaque joueur retire une baguette à son tour sans déplacer les autres. Le joueur qui obtient le plus de points gagne.",
-        emoji: "🥢",
-        color: "#f9e6c9",
-        productUrl: "https://www.joueclub.fr/jeux-de-societe/mikado-3393143400248.html"
-      },
-      {
-        id: "cartes-54",
-        name: "Jeu de 54 cartes",
-        category: "Cartes",
-        players: "2 joueurs ou plus",
-        duration: "Variable",
-        age: "Dès 6 ans",
-        description: "Un jeu de cartes classique pour jouer à de nombreux jeux : bataille, rami, poker et bien d'autres.",
-        rules: "Choisissez un jeu adapté au nombre de joueurs, distribuez les cartes selon ses règles et lancez la partie.",
-        emoji: "🂡",
-        color: "#e4eaff",
-        productUrl: null
-      },
-      {
-        id: "uno",
-        name: "UNO",
-        category: "Cartes",
-        players: "2 à 10 joueurs",
-        duration: "15 à 30 min",
-        age: "Dès 7 ans",
-        description: "Débarrassez-vous de toutes vos cartes en associant couleurs et chiffres. Attention aux cartes spéciales !",
-        rules: "Jouez une carte de la même couleur, du même chiffre ou du même symbole que celle au sommet de la pile. N'oubliez pas d'annoncer UNO lorsqu'il vous reste une seule carte.",
-        emoji: "🃏",
-        color: "#ffe4e4",
-        productUrl: "https://www.joueclub.fr/jeux-de-societe/uno-classique-jeu-de-cartes-0746775036744.html"
-      },
-      {
-        id: "devine-tete",
-        name: "La Pat'Patrouille - Devine Tête",
-        category: "Ambiance",
-        players: "2 joueurs ou plus",
-        duration: "15 min",
-        age: "Dès 4 ans",
-        description: "Un jeu de devinettes amusant dans l'univers de la Pat'Patrouille. Devinez ce que vous êtes en posant des questions.",
-        rules: "Un joueur porte une carte sans la regarder. Il pose des questions auxquelles les autres répondent par oui ou non afin de deviner l'image.",
-        emoji: "🐾",
-        color: "#e3f2ff",
-        productUrl: "https://www.joueclub.fr/jeux-de-societe/la-pat-patrouille-devine-tete-0681147032491.html"
-      },
-      {
-        id: "puissance-4",
-        name: "Puissance 4",
-        category: "Réflexion",
-        players: "2 joueurs",
-        duration: "10 à 20 min",
-        age: "Dès 6 ans",
-        description: "Alignez quatre jetons de votre couleur horizontalement, verticalement ou en diagonale avant votre adversaire.",
-        rules: "À tour de rôle, faites tomber un jeton dans une colonne. Le premier joueur à aligner quatre jetons remporte la partie.",
-        emoji: "🔴",
-        color: "#e3edff",
-        productUrl: "https://www.joueclub.fr/jeux-de-societes/puissance-4-5010993697601.html"
-      },
-      {
-        id: "les-evades",
-        name: "Les Évadés",
-        category: "Ambiance",
-        players: "Selon la version",
-        duration: "Variable",
-        age: "Selon la version",
-        description: "Un jeu à partager en groupe, où stratégie et observation peuvent faire la différence.",
-        rules: "Consultez les règles de votre boîte pour préparer la partie, définir les objectifs et déterminer le vainqueur.",
-        emoji: "🔐",
-        color: "#e8e6ff",
-        productUrl: null
-      },
-      {
-        id: "tour-infernale",
-        name: "La Tour Infernale",
-        category: "Adresse",
-        players: "2 joueurs ou plus",
-        duration: "10 à 20 min",
-        age: "Dès 6 ans",
-        description: "Retirez les pièces de la tour et replacez-les au sommet sans faire s'écrouler la construction.",
-        rules: "Chaque joueur retire délicatement une pièce puis la place au sommet de la tour. Celui qui fait tomber la tour perd la partie.",
-        emoji: "🗼",
-        color: "#fff0d9",
-        productUrl: "https://www.joueclub.fr/jeux-de-societe/la-tour-infernale-3393143395889.html"
-      },
-      {
-        id: "mamie-moule-maki",
-        name: "Mamie Moule Maki",
-        category: "Ambiance",
-        players: "3 joueurs ou plus",
-        duration: "20 à 30 min",
-        age: "Selon la version",
-        description: "Un jeu de mots et de créativité qui met l'imagination des joueurs à l'épreuve.",
-        rules: "Suivez la consigne de la manche et trouvez des réponses originales ou amusantes. Les règles exactes dépendent de la version du jeu.",
-        emoji: "💬",
-        color: "#ffe6f1",
-        productUrl: null
-      },
-      {
-        id: "suite-infernale",
-        name: "La Suite Infernale",
-        category: "Cartes",
-        players: "Selon la version",
-        duration: "15 à 30 min",
-        age: "Selon la version",
-        description: "Un jeu de cartes rythmé qui demande de l'attention et de la rapidité.",
-        rules: "Suivez les consignes et les règles indiquées dans votre boîte pour enchaîner les cartes et tenter de gagner.",
-        emoji: "🎴",
-        color: "#e2f8ed",
-        productUrl: null
-      },
-      {
-        id: "flip-7",
-        name: "Flip 7",
-        category: "Cartes",
-        players: "3 joueurs ou plus",
-        duration: "20 min",
-        age: "Dès 8 ans",
-        description: "Un jeu de cartes où il faut savoir prendre des risques… ou s'arrêter à temps !",
-        rules: "Révélez des cartes et accumulez des points, mais attention à ne pas révéler deux fois le même numéro. Sachez vous arrêter avant de tout perdre.",
-        emoji: "🎯",
-        color: "#fff0c9",
-        productUrl: null
-      },
-      {
-        id: "roll-n-bump",
-        name: "Roll'n Bump",
-        category: "Dés",
-        players: "2 à 5 joueurs",
-        duration: "20 à 30 min",
-        age: "Dès 8 ans",
-        description: "Lancez les dés, réalisez les combinaisons recherchées et tentez de prendre les meilleures cartes à vos adversaires.",
-        rules: "Lancez vos dés pour réaliser les combinaisons permettant de récupérer des cartes. Il faudra choisir les bonnes prises de risque pour marquer un maximum de points.",
-        emoji: "🎲",
-        color: "#e7edff",
-        productUrl: "https://www.cultura.com/p-roll-n-bump-gigamic-10827705.html"
-      }
-    ];
+  const boutonProduit = jeu.lien
+    ? `<a class="bouton" href="${echapper(jeu.lien)}" target="_blank" rel="noopener noreferrer">Voir le jeu en ligne ↗</a>`
+    : "";
 
-    const homePage = document.getElementById("home-page");
-    const detailPage = document.getElementById("detail-page");
-    const gamesGrid = document.getElementById("games-grid");
-    const detailContent = document.getElementById("detail-content");
-    const searchInput = document.getElementById("search-input");
-    const categoryFilter = document.getElementById("category-filter");
-    const backButton = document.getElementById("back-button");
+  detail.innerHTML = `
+    <article class="detail-carte">
+      <div class="detail-haut">
+        <div class="detail-illustration" style="background:${jeu.couleur}">
+          ${illustration(jeu, true)}
+        </div>
+        <div class="detail-infos">
+          <span class="categorie">${echapper(jeu.categorie)}</span>
+          <h2>${echapper(jeu.nom)}</h2>
+          <p>${echapper(jeu.description)}</p>
 
-    function escapeHtml(value) {
-      return String(value).replace(/[&<>"']/g, character => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-      })[character]);
-    }
-
-    function renderGameArt(game, detail = false) {
-      if (game.id === "cartes-54") {
-        return `
-          <svg viewBox="0 0 260 170" role="img" aria-label="Illustration de cartes à jouer">
-            <g transform="translate(48 16) rotate(-13 55 70)">
-              <rect x="7" y="5" width="100" height="145" rx="9" fill="#ffffff" stroke="#d8dff0" stroke-width="2"/>
-              <text x="20" y="31" font-size="22" font-weight="bold" fill="#d62f45">A</text>
-              <text x="20" y="52" font-size="20" fill="#d62f45">♥</text>
-              <text x="57" y="95" font-size="51" text-anchor="middle" fill="#d62f45">♥</text>
-              <text x="92" y="134" font-size="22" font-weight="bold" text-anchor="end" fill="#d62f45">A</text>
-            </g>
-            <g transform="translate(111 15) rotate(12 55 70)">
-              <rect x="7" y="5" width="100" height="145" rx="9" fill="#ffffff" stroke="#d8dff0" stroke-width="2"/>
-              <text x="20" y="31" font-size="22" font-weight="bold" fill="#18244d">K</text>
-              <text x="20" y="52" font-size="20" fill="#18244d">♠</text>
-              <text x="57" y="95" font-size="51" text-anchor="middle" fill="#18244d">♠</text>
-              <text x="92" y="134" font-size="22" font-weight="bold" text-anchor="end" fill="#18244d">K</text>
-            </g>
-          </svg>
-        `;
-      }
-
-      if (game.id === "uno") {
-        return `
-          <svg viewBox="0 0 260 170" role="img" aria-label="Illustration de cartes colorées">
-            <g transform="translate(35 20) rotate(-14 55 65)">
-              <rect x="8" y="5" width="86" height="130" rx="13" fill="#ed2939" stroke="#ffffff" stroke-width="4"/>
-              <ellipse cx="51" cy="70" rx="31" ry="45" fill="#ffffff" transform="rotate(-25 51 70)"/>
-              <text x="51" y="83" font-size="35" font-weight="900" text-anchor="middle" fill="#ed2939">U</text>
-            </g>
-            <g transform="translate(90 10) rotate(8 55 65)">
-              <rect x="8" y="5" width="86" height="130" rx="13" fill="#ffd43b" stroke="#ffffff" stroke-width="4"/>
-              <ellipse cx="51" cy="70" rx="31" ry="45" fill="#ffffff" transform="rotate(-25 51 70)"/>
-              <text x="51" y="83" font-size="35" font-weight="900" text-anchor="middle" fill="#172033">N</text>
-            </g>
-            <g transform="translate(145 22) rotate(17 45 60)">
-              <rect x="8" y="5" width="75" height="115" rx="12" fill="#1778dd" stroke="#ffffff" stroke-width="4"/>
-              <ellipse cx="45" cy="62" rx="27" ry="39" fill="#ffffff" transform="rotate(-25 45 62)"/>
-              <text x="45" y="75" font-size="31" font-weight="900" text-anchor="middle" fill="#1778dd">O</text>
-            </g>
-          </svg>
-        `;
-      }
-
-      const emojiSize = detail ? "7rem" : "5rem";
-      return `<div class="art-emoji" style="font-size:${emojiSize}" aria-hidden="true">${escapeHtml(game.emoji)}</div>`;
-    }
-
-    function renderGames() {
-      const searchTerm = searchInput.value.trim().toLocaleLowerCase("fr");
-      const selectedCategory = categoryFilter.value;
-
-      const filteredGames = games.filter(game => {
-        const matchesSearch =
-          game.name.toLocaleLowerCase("fr").includes(searchTerm) ||
-          game.description.toLocaleLowerCase("fr").includes(searchTerm) ||
-          game.category.toLocaleLowerCase("fr").includes(searchTerm);
-
-        const matchesCategory =
-          selectedCategory === "all" || game.category === selectedCategory;
-
-        return matchesSearch && matchesCategory;
-      });
-
-      if (filteredGames.length === 0) {
-        gamesGrid.innerHTML = `
-          <div class="empty-state">
-            <h3>Aucun jeu trouvé</h3>
-            <p>Essaie un autre nom ou une autre catégorie.</p>
-          </div>
-        `;
-        return;
-      }
-
-      gamesGrid.innerHTML = filteredGames.map(game => `
-        <article class="game-card">
-          <div class="game-art" style="background:${game.color}">
-            ${renderGameArt(game)}
-          </div>
-          <div class="game-card-content">
-            <span class="category-tag">${escapeHtml(game.category)}</span>
-            <h3>${escapeHtml(game.name)}</h3>
-            <p>${escapeHtml(game.description)}</p>
-            <button
-              class="primary-button"
-              type="button"
-              data-game-id="${escapeHtml(game.id)}"
-            >
-              Découvrir le jeu →
-            </button>
-          </div>
-        </article>
-      `).join("");
-
-      gamesGrid.querySelectorAll("[data-game-id]").forEach(button => {
-        button.addEventListener("click", () => {
-          openGame(button.dataset.gameId);
-        });
-      });
-    }
-
-    function openGame(gameId) {
-      const game = games.find(item => item.id === gameId);
-      if (!game) return;
-
-      homePage.style.display = "none";
-      detailPage.style.display = "block";
-
-      const retailerButton = game.productUrl
-        ? `<a class="primary-button" href="${escapeHtml(game.productUrl)}" target="_blank" rel="noopener noreferrer">Voir le jeu en ligne ↗</a>`
-        : "";
-
-      detailContent.innerHTML = `
-        <article class="detail-panel">
-          <div class="detail-hero">
-            <div class="detail-art" style="background:${game.color}">
-              ${renderGameArt(game, true)}
+          <div class="metadonnees">
+            <div class="meta">
+              <small>Joueurs</small>
+              <strong>${echapper(jeu.joueurs)}</strong>
             </div>
-
-            <div class="detail-copy">
-              <span class="category-tag">${escapeHtml(game.category)}</span>
-              <h2>${escapeHtml(game.name)}</h2>
-              <p>${escapeHtml(game.description)}</p>
-
-              <div class="detail-meta">
-                <div class="meta-item">
-                  <span class="meta-label">Joueurs</span>
-                  <strong>${escapeHtml(game.players)}</strong>
-                </div>
-                <div class="meta-item">
-                  <span class="meta-label">Durée</span>
-                  <strong>${escapeHtml(game.duration)}</strong>
-                </div>
-                <div class="meta-item">
-                  <span class="meta-label">Âge conseillé</span>
-                  <strong>${escapeHtml(game.age)}</strong>
-                </div>
-                <div class="meta-item">
-                  <span class="meta-label">Catégorie</span>
-                  <strong>${escapeHtml(game.category)}</strong>
-                </div>
-              </div>
-
-              <div class="detail-actions">
-                ${retailerButton}
-                <button id="detail-back-button" class="secondary-button" type="button">
-                  ← Retour aux jeux
-                </button>
-              </div>
+            <div class="meta">
+              <small>Durée</small>
+              <strong>${echapper(jeu.duree)}</strong>
+            </div>
+            <div class="meta">
+              <small>Âge conseillé</small>
+              <strong>${echapper(jeu.age)}</strong>
+            </div>
+            <div class="meta">
+              <small>Catégorie</small>
+              <strong>${echapper(jeu.categorie)}</strong>
             </div>
           </div>
 
-          <div class="detail-body">
-            <h3>Comment jouer ?</h3>
-            <p>${escapeHtml(game.rules)}</p>
+          <div class="actions">
+            ${boutonProduit}
+            <button class="bouton-secondaire" id="retour-detail" type="button">← Retour aux jeux</button>
           </div>
-        </article>
-      `;
+        </div>
+      </div>
 
-      document.getElementById("detail-back-button").addEventListener("click", showHome);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+      <div class="regles">
+        <h3>Comment jouer ?</h3>
+        <p>${echapper(jeu.regles)}</p>
+      </div>
+    </article>
+  `;
 
-    function showHome() {
-      detailPage.style.display = "none";
-      homePage.style.display = "block";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+  document.getElementById("retour-detail").addEventListener("click", retourAccueil);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
-    searchInput.addEventListener("input", renderGames);
-    categoryFilter.addEventListener("change", renderGames);
-    backButton.addEventListener("click", showHome);
+function retourAccueil() {
+  pageDetail.style.display = "none";
+  accueil.style.display = "block";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
-    renderGames();
-  </script>
+document.getElementById("retour").addEventListener("click", retourAccueil);
+recherche.addEventListener("input", afficherJeux);
+filtreCategorie.addEventListener("change", afficherJeux);
+
+afficherJeux();
+</script>
 </body>
 </html>
