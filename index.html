@@ -453,7 +453,7 @@
 
   <main id="app"></main>
 
-  <footer>Ma ludothèque à UGC Mondeville</footer>
+  <footer>Ma ludothèque à UGC Mondeville<br>Emprunt et retour au bar.</footer>
 
   <script>
     const games = [
@@ -934,7 +934,7 @@
       app.innerHTML = `
         <section class="intro">
           <h2>Découvrez nos jeux 🎲</h2>
-          <p>Retrouvez les jeux de la ludothèque, consultez leurs règles et découvrez où les trouver.</p>
+          <p>Retrouvez les jeux de la ludothèque UGC Mondeville : Emprunt et retour au bar. Consultez leurs règles et découvrez les fiches produits chez nos partenaires</p>
         </section>
 
         <div class="actions" style="margin-bottom: 20px;">
@@ -968,6 +968,17 @@
             <h3>Comment jouer ?</h3>
           </div>
 
+          ${game.rulesUrl ? `
+            <div class="actions" style="margin-top: 18px;">
+              <a class="button button-primary"
+                 href="${escapeHtml(game.rulesUrl)}"
+                 target="_blank"
+                 rel="noopener noreferrer">
+                Idées de jeux à jouer avec un simple paquet de cartes ↗
+              </a>
+            </div>
+          ` : ""}
+
           <p class="rules-intro">
             Voici les principales étapes pour comprendre le déroulement de la partie.
           </p>
@@ -988,16 +999,6 @@
             </div>
           ` : ""}
 
-          ${game.rulesUrl ? `
-            <div class="actions" style="margin-top: 18px;">
-              <a class="button button-primary"
-                 href="${escapeHtml(game.rulesUrl)}"
-                 target="_blank"
-                 rel="noopener noreferrer">
-                Découvrir d'autres jeux de cartes ↗
-              </a>
-            </div>
-          ` : ""}
         </section>`;
     }
 
