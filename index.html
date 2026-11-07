@@ -698,6 +698,66 @@
         tip: "Évaluez les possibilités à chaque lancer et privilégiez les choix qui servent votre objectif.",
         color: "#ffdfcc",
         scene: "roll"
+      },
+      {
+        id: "mim-memoire",
+        name: "MIM'MEMOIRE",
+        category: "Mémoire",
+        players: "2 à 4 joueurs",
+        age: "Dès 3 ans",
+        duration: "15 à 30 min",
+        retailer: "JouéClub",
+        productUrl: "https://www.joueclub.fr/jeux-de-societe/mim-memoire-3393143400507.html",
+        description: "Mémorisez les missions indiquées sur les cartes et réalisez-les dans le bon ordre. Un jeu pour exercer sa mémoire et son attention.",
+        rules: [
+          "Mélangez les cartes et préparez la pioche comme indiqué dans la notice.",
+          "À votre tour, tirez une carte et mémorisez les tâches ou actions qu'elle indique.",
+          "Réalisez les tâches dans le bon ordre, en essayant de vous souvenir de toutes les étapes.",
+          "Le joueur qui réussit le plus de tâches correctement remporte la partie."
+        ],
+        tip: "Répétez mentalement les actions dans l'ordre avant de les réaliser pour mieux les retenir.",
+        color: "#e6dcff",
+        scene: "mim-memoire"
+      },
+      {
+        id: "que-vois-tu",
+        name: "Que vois-tu ?",
+        category: "Déduction",
+        players: "2 à 6 joueurs",
+        age: "Dès 5 ans",
+        duration: "15 min",
+        retailer: "JouéClub",
+        productUrl: "https://www.joueclub.fr/jeux-de-societe/que-vois-tu-8422878808878.html",
+        description: "Devinez l'image placée sur votre bandeau en posant des questions auxquelles les autres joueurs répondent par oui ou par non.",
+        rules: [
+          "Placez les cartes et les bandeaux à portée de tous les joueurs.",
+          "Chaque joueur place une carte sur son bandeau sans regarder son image.",
+          "À tour de rôle, posez des questions auxquelles les autres répondent uniquement par oui ou par non pour deviner ce que représente votre carte.",
+          "Continuez à poser des questions jusqu'à ce que vous trouviez votre image, selon la variante choisie."
+        ],
+        tip: "Posez d'abord des questions générales, par exemple sur la catégorie ou l'environnement de l'objet, puis précisez vos questions.",
+        color: "#d9efff",
+        scene: "que-vois-tu"
+      },
+      {
+        id: "slapzi",
+        name: "Slapzi",
+        category: "Observation et rapidité",
+        players: "2 joueurs et plus",
+        age: "Dès 8 ans",
+        duration: "10 min",
+        retailer: "Cultura",
+        productUrl: "https://www.cultura.com/p-slapzi-11774729.html",
+        description: "Associez le plus vite possible une carte Objet à la condition indiquée par une carte Indice. Attention aux erreurs : elles font reprendre une carte !",
+        rules: [
+          "Distribuez les cartes Objet aux joueurs et préparez la pile de cartes Indice.",
+          "Retournez une carte Indice : elle indique la caractéristique que doit respecter une carte Objet.",
+          "Soyez le plus rapide à proposer une carte Objet qui correspond à l'indice. Une réponse incorrecte vous fait récupérer une carte supplémentaire.",
+          "Le premier joueur qui se débarrasse de toutes ses cartes remporte la partie."
+        ],
+        tip: "Observez bien la consigne avant de jouer : la rapidité compte, mais une réponse précipitée peut vous pénaliser.",
+        color: "#ffe4a8",
+        scene: "slapzi"
       }
     ];
 
@@ -834,7 +894,45 @@
               <circle cx="200" cy="142" r="6"/><circle cx="183" cy="160" r="6"/>
               <circle cx="218" cy="160" r="6"/>
             </g>
-          </g>`
+          </g>`,
+        "mim-memoire": `
+          <g transform="rotate(-10 112 142)">
+            <rect x="68" y="78" width="92" height="126" rx="12" fill="#fff" stroke="#6d58b5" stroke-width="4"/>
+            <circle cx="114" cy="113" r="20" fill="#f4c58c"/>
+            <path d="M94 153 Q114 126 134 153 L140 181 H88Z" fill="#78b9e5"/>
+            <path d="M100 112 Q100 88 119 91 Q136 94 135 113" fill="#6d58b5"/>
+          </g>
+          <g transform="rotate(10 205 143)">
+            <rect x="162" y="67" width="92" height="132" rx="12" fill="#fff" stroke="#6d58b5" stroke-width="4"/>
+            <circle cx="208" cy="112" r="20" fill="#f4c58c"/>
+            <path d="M188 153 Q208 126 228 153 L234 178 H182Z" fill="#ef9b63"/>
+            <path d="M190 111 Q190 88 210 90 Q229 92 229 113" fill="#8b70d4"/>
+          </g>
+          <path d="M154 45 L165 29 L176 45 L165 41Z" fill="#efb84e"/>`,
+        "que-vois-tu": `
+          <rect x="74" y="76" width="172" height="128" rx="16" fill="#fff" stroke="#477cae" stroke-width="4"/>
+          <rect x="93" y="94" width="134" height="92" rx="10" fill="#dff2ff"/>
+          <circle cx="160" cy="137" r="29" fill="#f3c58f"/>
+          <path d="M132 133 Q132 99 160 103 Q189 104 188 134 L178 119 H143Z" fill="#6c83bb"/>
+          <circle cx="150" cy="137" r="3.5" fill="#333"/>
+          <circle cx="170" cy="137" r="3.5" fill="#333"/>
+          <path d="M151 151 Q160 158 169 151" fill="none" stroke="#a95757" stroke-width="3" stroke-linecap="round"/>
+          <path d="M95 65 Q112 43 129 65 M191 65 Q208 43 225 65" fill="none" stroke="#477cae" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="160" cy="48" r="19" fill="#ffd45d"/>
+          <text x="160" y="57" text-anchor="middle" font-size="26" font-weight="900" fill="#4b5d9a">?</text>`,
+        slapzi: `
+          <g transform="rotate(-12 112 144)">
+            <rect x="68" y="78" width="94" height="132" rx="12" fill="#fff" stroke="#bf8132" stroke-width="4"/>
+            <circle cx="115" cy="121" r="25" fill="#f2c64e"/>
+            <path d="M91 162 Q115 134 139 162 L145 184 H85Z" fill="#65a7d8"/>
+          </g>
+          <g transform="rotate(12 207 143)">
+            <rect x="160" y="65" width="94" height="132" rx="12" fill="#fff" stroke="#bf8132" stroke-width="4"/>
+            <path d="M207 94 L229 117 L207 140 L185 117Z" fill="#ed8a65"/>
+            <circle cx="207" cy="117" r="8" fill="#fff"/>
+            <text x="207" y="177" text-anchor="middle" font-size="25" font-weight="900" fill="#4d5268">!</text>
+          </g>
+          <path d="M148 52 L160 35 L172 52 L160 48Z" fill="#e56b58"/>`
       };
 
       let retailerBadge = "";
