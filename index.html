@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -937,21 +938,13 @@
 
       let retailerBadge = "";
 
-      if (!game.hideRetailerLogo) {
-        retailerBadge = game.retailer === "JouéClub"
-          ? `
-            <g transform="translate(18 18)">
-              <rect width="112" height="40" rx="9" fill="#fff" stroke="#e4e7f0"/>
-              <image href="https://cdn.worldvectorlogo.com/logos/logo-joueclub-2016-blue-.svg"
-                x="9" y="5" width="94" height="30"
-                preserveAspectRatio="xMidYMid meet"/>
-            </g>`
-          : `
-            <g transform="translate(18 18)">
-              <rect width="94" height="40" rx="9" fill="#fff" stroke="#e4e7f0"/>
-              <text x="47" y="26" text-anchor="middle"
-                font-size="18" font-weight="900" fill="#e24a31">Cultura</text>
-            </g>`;
+      if (!game.hideRetailerLogo && game.retailer === "Cultura") {
+        retailerBadge = `
+          <g transform="translate(18 18)">
+            <rect width="94" height="40" rx="9" fill="#fff" stroke="#e4e7f0"/>
+            <text x="47" y="26" text-anchor="middle"
+              font-size="18" font-weight="900" fill="#e24a31">Cultura</text>
+          </g>`;
       }
 
       return `
@@ -1108,7 +1101,7 @@
         return;
       }
 
-      const retailerButton = game.productUrl
+      const retailerButton = game.productUrl && game.retailer !== "JouéClub"
         ? `
           <div class="actions">
             <a class="button button-primary"
